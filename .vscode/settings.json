@@ -1,0 +1,13 @@
+{
+    "chat.mcp.serverSampling": {
+        "athena-website/.vscode/mcp.json: @21st-dev/magic": {
+            "allowedModels": [
+                "copilot/auto",
+                "claude-code/claude-opus-4.6",
+                "copilotcli/claude-sonnet-4.6",
+                "copilot/claude-sonnet-4.6",
+                "claude-code/claude-sonnet-4.6"
+            ]
+        }
+    }
+}
