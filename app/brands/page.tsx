@@ -84,7 +84,7 @@ export default function BrandsPage() {
       <section className="pt-40 overflow-hidden">
         {/* Word-by-word stagger heading */}
         <div className="text-center mb-0 px-6">
-          <motion.p className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tighter leading-tight text-white"
+          <motion.p className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-none text-white"
             initial="hidden"
             animate="visible"
             variants={{

@@ -80,6 +80,22 @@ export const categoryNames: Record<ProductCategory, string> = {
   "complete-actuator-equipment": "Complete Actuator Equipment",
 };
 
+export const categoryToBrand: Record<ProductCategory, Brand> = {
+  "soft-starter":               "motortronics",
+  "frequency-inverter":         "renle",
+  "vibration-sensors":          "shinkawa",
+  "condition-monitor":          "shinkawa",
+  "ball-valve":                 "athena-valve",
+  "butterfly-valve":            "athena-valve",
+  "gate-valve":                 "athena-valve",
+  "globe-valve":                "athena-valve",
+  "check-valve":                "athena-valve",
+  "plug-valve":                 "athena-valve",
+  "pneumatic-actuator":         "valentech",
+  "electric-actuator":          "valentech",
+  "complete-actuator-equipment":"valentech",
+};
+
 export const categoryDescriptions: Record<ProductCategory, string> = {
   "soft-starter":
     "Controlled motor starting solutions for reduced mechanical and electrical stress",

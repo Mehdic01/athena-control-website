@@ -1,0 +1,68 @@
+/* ── Wrapper link ─────────────────────────────────────────────────────────── */
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Main button body ─────────────────────────────────────────────────────── */
+.bg {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background: #000;
+  padding: 0 0px;
+  padding-left: 56px;
+  gap: 16px;
+}
+
+/* ── Text label ───────────────────────────────────────────────────────────── */
+.text {
+  color: #fff;
+  font-family: var(--font-barlow-condensed), system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Pixel grid ───────────────────────────────────────────────────────────── */
+.pixels {
+  display: grid;
+  grid-template-columns: repeat(5, 16px);
+  grid-template-rows: repeat(5, 16px);
+  gap: 0px;
+  flex-shrink: 0;
+}
+
+/* ── Individual pixel ─────────────────────────────────────────────────────── */
+.pixel {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: #000;
+  transition: background 0.08s ease calc(var(--i, 0) * 0.02s);
+}
+
+/* The one pixel that starts white (visible at rest) */
+.pixelOn {
+  background: #ffffff;
+}
+
+/* ── Hover: all pixels turn white, then specific ones revert to black ─────── */
+.link:hover .pixel {
+  background: #000000;
+}
+
+/* These pixels stay dark on hover — their absence forms the arrow shape */
+.link:hover .r0c0,.link:hover .r1c0, .link:hover .r1c1, .link:hover .r1c2,
+.link:hover .r2c0, .link:hover .r2c1, .link:hover .r2c3,
+.link:hover .r3c0, .link:hover .r3c2, .link:hover .r3c3,
+.link:hover .r4c1, .link:hover .r4c2, .link:hover .r4c3, .link:hover .r4c4 {
+  background: #ffffff;
+}

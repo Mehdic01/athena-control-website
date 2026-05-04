@@ -1,21 +1,56 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronRight, Menu, X, Phone, Mail } from "lucide-react";
-import { navLinks, productDropdown } from "@/lib/data/navigation/navigation";
+import { ChevronDown, ArrowRight, Menu, X, Phone, Mail, ExternalLink } from "lucide-react";
+import { navLinks, productDropdown, type MegaMenuColumn } from "@/lib/data/navigation/navigation";
 import { contactInfo } from "@/lib/data/brands/athenacontrol";
 
+// ── Normalise a column into display-ready categories ─────────────────────────
+type DisplayGroup = {
+  subLabel?: string;
+  items: { label: string; href: string; external?: boolean }[];
+};
+type DisplayCategory = {
+  key: string;
+  label: string;
+  href: string;
+  groups: DisplayGroup[];
+};
+
+function getDisplayCategories(col: MegaMenuColumn): DisplayCategory[] {
+  const isSubGroupsAsCats =
+    col.sections.length === 1 && (col.sections[0].subGroups?.length ?? 0) >= 4;
+
+  if (isSubGroupsAsCats) {
+    return col.sections[0].subGroups!.map((group) => ({
+      key: `${col.brand}::${group.group}`,
+      label: group.group,
+      href: group.href ?? col.sections[0].href,
+      groups: [{ items: group.items }],
+    }));
+  }
+
+  return col.sections.map((section) => ({
+    key: `${col.brand}::${section.subtitle ?? section.href}`,
+    label: section.subtitle ?? "",
+    href: section.href,
+    groups: section.subGroups
+      ? section.subGroups.map((g) => ({ subLabel: g.group, items: g.items }))
+      : [{ items: section.items }],
+  }));
+}
+
 export default function Navbar() {
-  const [scrolled, setScrolled]             = useState(false);
-  const [mobileOpen, setMobileOpen]         = useState(false);
-  const [dropdownOpen, setDropdownOpen]     = useState(false);
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeSubGroup, setActiveSubGroup] = useState<number | null>(null);
-  const [productsOpen, setProductsOpen]     = useState(false);
+  const [scrolled, setScrolled]                 = useState(false);
+  const [mobileOpen, setMobileOpen]             = useState(false);
+  const [dropdownOpen, setDropdownOpen]         = useState(false);
+  const [expandedCompany, setExpandedCompany]   = useState<string | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [productsOpen, setProductsOpen]         = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -24,7 +59,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Sync scroll state immediately on route change — prevents stale transparent/solid flicker
   useEffect(() => {
     setScrolled(window.scrollY > 20);
     setMobileOpen(false);
@@ -32,28 +66,37 @@ export default function Navbar() {
     setProductsOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!dropdownOpen) {
+      setExpandedCompany(null);
+      setExpandedCategory(null);
+    }
+  }, [dropdownOpen]);
+
+  const toggleCompany = (brand: string) => {
+    if (expandedCompany === brand) {
+      setExpandedCompany(null);
+    } else {
+      setExpandedCompany(brand);
+      setExpandedCategory(null);
+    }
+  };
+
+  const toggleCategory = (key: string) => {
+    setExpandedCategory((prev) => (prev === key ? null : key));
+  };
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  // Hero-transparent mode: home, contact, and products pages before first scroll (dark bg on all)
-  const isTransparent = (pathname === "/" || pathname === "/contact" || pathname === "/gallery" || pathname === "/brands" ) && !scrolled;
-
-  // Flatten product dropdown columns into a single categories array
-  const allCategories = productDropdown.columns.flatMap((col) =>
-    col.sections.map((section) => ({
-      brand: col.brand,
-      label: section.subtitle,
-      href: section.href,
-      external: section.external ?? false,
-      items: section.items,
-      subGroups: section.subGroups,
-    }))
-  );
+  const isTransparent =
+    (pathname === "/" || pathname === "/contact" || pathname === "/gallery" || pathname === "/brands") &&
+    !scrolled;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
 
-      {/* ── Top contact bar — slides away on scroll ── */}
+      {/* ── Top contact bar ── */}
       <div
         className={`bg-black overflow-hidden transition-all duration-300 ${
           scrolled ? "max-h-0" : "max-h-10"
@@ -80,12 +123,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Main navbar — `relative` so the mega menu anchors here ── */}
+      {/* ── Main navbar ── */}
       <div
         className={`relative transition-all duration-400 ${
           isTransparent
             ? "bg-transparent border-transparent"
-            
             : scrolled
               ? "bg-white shadow-sm border-b border-[#E0E0E0]"
               : "bg-white/90 backdrop-blur-sm border-b border-[#E0E0E0]"
@@ -108,7 +150,7 @@ export default function Navbar() {
             </Link>
 
             {/* ── Desktop nav ── */}
-            <nav className="hidden lg:flex items-center gap-4"> 
+            <nav className="hidden lg:flex items-center gap-4">
               {navLinks.map((link) =>
                 link.hasDropdown ? (
                   <div
@@ -133,161 +175,159 @@ export default function Navbar() {
                       />
                     </Link>
 
+                    {/* ── 3-level accordion dropdown ── */}
                     <AnimatePresence>
                       {dropdownOpen && (
                         <motion.div
-                          initial={{ opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute top-full left-0 z-50 pt-1"
+                          initial={{ opacity: 0, y: -8, scaleY: 0.97 }}
+                          animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                          exit={{ opacity: 0, y: -8, scaleY: 0.97 }}
+                          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                          style={{ transformOrigin: "top center" }}
+                          className="absolute top-full left-0 z-50 w-[300px] pt-2"
                         >
-                          <div className="bg-white  shadow-2xl w-[260px]">
-                            {allCategories.map((cat, i) => (
-                              <div
-                                key={i}
-                                className="relative"
-                                onMouseEnter={() => { setActiveCategory(i); setActiveSubGroup(null); }}
-                              >
-                                {cat.external ? (
-                                  <a
-                                    href={cat.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`flex items-center justify-between py-3 transition-all border-l-[3px] ${
-                                      activeCategory === i
-                                        ? "bg-[#F5F5F5] text-[#1A1A1A] border-[#1A1A1A] pl-[13px] pr-4"
-                                        : "text-[#1A1A1A]/60 hover:bg-[#F9F9F9] hover:text-[#1A1A1A] border-transparent pl-[13px] pr-4"
-                                    }`}
-                                  >
-                                    <span className="font-heading text-[11.5px] tracking-[0.12em] uppercase font-semibold">
-                                      {cat.label}
-                                    </span>
-                                  </a>
-                                ) : (
-                                  <Link
-                                    href={cat.href}
-                                    className={`flex items-center justify-between py-3 transition-all border-l-[3px] ${
-                                      activeCategory === i
-                                        ? "bg-[#F5F5F5] text-[#1A1A1A] border-[#1A1A1A] pl-[13px] pr-4"
-                                        : "text-[#1A1A1A]/60 hover:bg-[#F9F9F9] hover:text-[#1A1A1A] border-transparent pl-[13px] pr-4"
-                                    }`}
-                                  >
-                                    <span className="font-heading text-[11.5px] tracking-[0.12em] uppercase font-semibold">
-                                      {cat.label}
-                                    </span>
-                                    {(cat.items.length > 0 || !!cat.subGroups?.length) && (
-                                      <ChevronRight
-                                        className={`w-3.5 h-3.5 flex-shrink-0 transition-opacity ${
-                                          activeCategory === i ? "opacity-100" : "opacity-20"
-                                        }`}
-                                      />
-                                    )}
-                                  </Link>
-                                )}
+                          <div className="bg-white border border-[#E0E0E0] shadow-[0_8px_32px_rgba(0,0,0,0.10)] rounded-sm overflow-hidden">
 
-                                {activeCategory === i && (cat.subGroups?.length || cat.items.length > 0) && (
-                                  <div className="absolute top-0 left-full z-50 bg-white shadow-2xl w-[240px]">
-                                    <p className="font-heading text-[9px] tracking-[0.35em] uppercase text-[#6B6B6B] px-4 pt-3 pb-2 border-b border-[#F0F0F0]">
-                                      {cat.label}
-                                    </p>
-                                    {cat.subGroups?.length ? (
-                                      cat.subGroups[0].href ? (
-                                        /* Multi-level mode: group names link to category pages, hover reveals products */
-                                        <div className="py-1">
-                                          {cat.subGroups.map((group, gi) => (
-                                            <div
-                                              key={group.group}
-                                              className="relative"
-                                              onMouseEnter={() => setActiveSubGroup(gi)}
-                                            >
-                                              <Link
-                                                href={group.href!}
-                                                className={`flex items-center justify-between px-4 py-2.5 text-[11.5px] font-heading tracking-[0.12em] uppercase transition-colors border-l-[3px] ${
-                                                  activeSubGroup === gi
-                                                    ? "bg-[#F5F5F5] text-[#1A1A1A] border-[#1A1A1A]"
-                                                    : "text-[#1A1A1A]/60 hover:text-[#1A1A1A] hover:bg-[#F9F9F9] border-transparent"
-                                                }`}
-                                              >
-                                                <span>{group.group}</span>
-                                                <ChevronRight className={`w-3.5 h-3.5 flex-shrink-0 transition-opacity ${activeSubGroup === gi ? "opacity-100" : "opacity-20"}`} />
-                                              </Link>
-                                              {activeSubGroup === gi && group.items.length > 0 && (
-                                                <div className="absolute top-0 left-full z-50 bg-white shadow-2xl w-[280px] overflow-y-auto max-h-[70vh]">
-                                                  <p className="font-heading text-[9px] tracking-[0.35em] uppercase text-[#6B6B6B] px-4 pt-3 pb-2 border-b border-[#F0F0F0]">
-                                                    {group.group}
-                                                  </p>
-                                                  <div className="py-1">
-                                                    {group.items.map((item) => (
-                                                      <Link
-                                                        key={item.href}
-                                                        href={item.href}
-                                                        className="block px-4 py-2 text-[12px] font-sans text-[#1A1A1A]/55 hover:text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors"
-                                                      >
-                                                        {item.label}
-                                                      </Link>
-                                                    ))}
+                            <div className="max-h-[70vh] overflow-y-auto py-1">
+                              {productDropdown.columns.map((col) => {
+                                const isOpen = expandedCompany === col.brand;
+                                const cats = getDisplayCategories(col);
+
+                                return (
+                                  <div key={col.brand}>
+
+                                    {/* ── L1: Company — link + chevron toggle ── */}
+                                    <div className="flex items-center gap-2 px-4 py-2 hover:bg-[#F5F5F5] transition-colors duration-150 group">
+                                      <Link
+                                        href={col.href}
+                                        onClick={() => setDropdownOpen(true)}
+                                        className="flex-1 min-w-0"
+                                      >
+                                        <span className="font-heading text-[15px] uppercase tracking-[0.12em] text-[#1A1A1A] leading-none">
+                                          {col.brand}
+                                        </span>
+                                      </Link>
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleCompany(col.brand)}
+                                        className="p-1.5 shrink-0 rounded-sm text-[#1A1A1A]/30 hover:text-[#1A1A1A] hover:bg-[#E0E0E0] transition-all duration-150 cursor-pointer"
+                                      >
+                                        <ChevronDown
+                                          className={`w-4 h-4 transition-transform duration-200 ${
+                                            isOpen ? "rotate-180" : ""
+                                          }`}
+                                        />
+                                      </button>
+                                    </div>
+
+                                    {/* ── L1 expanded → categories ── */}
+                                    <AnimatePresence>
+                                      {isOpen && (
+                                        <motion.div
+                                          initial={{ height: 0, opacity: 0 }}
+                                          animate={{ height: "auto", opacity: 1 }}
+                                          exit={{ height: 0, opacity: 0 }}
+                                          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                                          className="overflow-hidden"
+                                        >
+                                          <div className="bg-[#F9F9F9] py-1">
+                                            {cats.map((cat) => {
+                                              const catOpen = expandedCategory === cat.key;
+
+                                              return (
+                                                <div key={cat.key}>
+
+                                                  {/* ── L2: Category — link + chevron toggle ── */}
+                                                  <div className="flex items-center gap-2 pl-8 pr-4 py-2 hover:bg-[#EFEFEF] transition-colors duration-150 group/cat">
+                                                    <Link
+                                                      href={cat.href}
+                                                      onClick={() => setDropdownOpen(false)}
+                                                      className="flex-1 font-heading text-[13px] uppercase tracking-[0.1em] text-[#6B6B6B] group-hover/cat:text-[#1A1A1A] transition-colors duration-150"
+                                                    >
+                                                      {cat.label}
+                                                    </Link>
+                                                    <button
+                                                      type="button"
+                                                      onClick={() => toggleCategory(cat.key)}
+                                                      className="p-1 shrink-0 text-[#1A1A1A]/20 hover:text-[#1A1A1A]/50 transition-colors"
+                                                    >
+                                                      <ChevronDown
+                                                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                                                          catOpen ? "rotate-180" : ""
+                                                        }`}
+                                                      />
+                                                    </button>
                                                   </div>
+
+                                                  {/* ── L2 expanded → products ── */}
+                                                  <AnimatePresence>
+                                                    {catOpen && (
+                                                      <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: "auto", opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                                                        className="overflow-hidden"
+                                                      >
+                                                        <div className="bg-white py-1">
+                                                          {cat.groups.map((group, gi) => (
+                                                            <div key={gi}>
+                                                              {group.subLabel && (
+                                                                <span className="font-heading text-[10px] tracking-[0.35em] uppercase text-[#1A1A1A]/30 block px-12 pt-1.5 pb-0.5">
+                                                                  {group.subLabel}
+                                                                </span>
+                                                              )}
+                                                              {group.items.map((item) =>
+                                                                item.external ? (
+                                                                  <a
+                                                                    key={item.href}
+                                                                    href={item.href}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    onClick={() => setDropdownOpen(false)}
+                                                                    className="flex items-center gap-1 px-12 py-[5px] font-sans text-[13px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-100"
+                                                                  >
+                                                                    {item.label}
+                                                                    <ExternalLink className="w-2.5 h-2.5 opacity-40 ml-0.5 shrink-0" />
+                                                                  </a>
+                                                                ) : (
+                                                                  <Link
+                                                                    key={item.href}
+                                                                    href={item.href}
+                                                                    onClick={() => setDropdownOpen(false)}
+                                                                    className="block px-12 py-[5px] font-sans text-[13px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-100"
+                                                                  >
+                                                                    {item.label}
+                                                                  </Link>
+                                                                )
+                                                              )}
+                                                            </div>
+                                                          ))}
+                                                        </div>
+                                                      </motion.div>
+                                                    )}
+                                                  </AnimatePresence>
                                                 </div>
-                                              )}
-                                            </div>
-                                          ))}
-                                        </div>
-                                      ) : (
-                                        /* Flat grouped mode: LV/MV headers for Soft Starters & Frequency Inverters */
-                                        cat.subGroups.map((group) => (
-                                          <div key={group.group}>
-                                            <p className="font-heading text-[9px] tracking-[0.3em] uppercase text-[#1A1A1A]/35 px-4 pt-3 pb-1">
-                                              {group.group}
-                                            </p>
-                                            {group.items.map((item) => (
-                                              <Link
-                                                key={item.href}
-                                                href={item.href}
-                                                className="block px-4 py-1.5 text-[12px] font-sans text-[#1A1A1A]/55 hover:text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors"
-                                              >
-                                                {item.label}
-                                              </Link>
-                                            ))}
+                                              );
+                                            })}
                                           </div>
-                                        ))
-                                      )
-                                    ) : (
-                                      <div className="py-1">
-                                        {cat.items.map((item) =>
-                                          item.external ? (
-                                            <a
-                                              key={item.href}
-                                              href={item.href}
-                                              target="_blank"
-                                              rel="noopener noreferrer"
-                                              className="flex items-center gap-1 px-4 py-2 text-[12px] font-sans text-[#1A1A1A]/55 hover:text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors"
-                                            >
-                                              {item.label}
-                                              <span className="text-[9px] opacity-40">↗</span>
-                                            </a>
-                                          ) : (
-                                            <Link
-                                              key={item.href}
-                                              href={item.href}
-                                              className="block px-4 py-2 text-[12px] font-sans text-[#1A1A1A]/55 hover:text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors"
-                                            >
-                                              {item.label}
-                                            </Link>
-                                          )
-                                        )}
-                                      </div>
-                                    )}
+                                        </motion.div>
+                                      )}
+                                    </AnimatePresence>
                                   </div>
-                                )}
-                              </div>
-                            ))}
-                            <div className="border-t border-[#E8E8E8] mt-0.5 px-4 py-2.5 flex justify-end">
+                                );
+                              })}
+                            </div>
+
+                            {/* Footer */}
+                            <div className="px-5 py-3 border-t border-[#E0E0E0]">
                               <Link
                                 href="/products"
-                                className="font-heading text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A]/30 hover:text-[#1A1A1A] transition-colors"
+                                onClick={() => setDropdownOpen(false)}
+                                className="group inline-flex items-center gap-1.5 font-heading text-[11px] tracking-[0.25em] uppercase text-[#6B6B6B] hover:text-[#1B6240] transition-colors duration-200"
                               >
-                                View all →
+                                All Products
+                                <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" />
                               </Link>
                             </div>
                           </div>
@@ -337,7 +377,6 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* ── Mobile menu ── */}
@@ -350,7 +389,6 @@ export default function Navbar() {
             className="lg:hidden border-t border-[#E0E0E0] bg-white overflow-y-auto max-h-[80vh]"
           >
             <div className="px-4 py-6 space-y-1">
-              {/* Contact info strip */}
               <div className="flex items-center gap-4 px-3 pb-4 border-b border-[#E0E0E0] mb-2">
                 <a
                   href={`tel:${contactInfo.phone}`}
@@ -396,7 +434,6 @@ export default function Navbar() {
                     )}
                   </div>
 
-                  {/* Expand product sub-links inline — collapsible */}
                   {link.hasDropdown && productsOpen && (
                     <div className="pl-4 mt-1 space-y-0.5">
                       {productDropdown.columns.map((col) => (

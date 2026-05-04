@@ -1,5 +1,6 @@
 "use client";
-import { useState, useRef, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Search, X, ArrowRight, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -9,9 +10,8 @@ import {
 } from "@/lib/data/products/utils";
 import type { ProductCategory } from "@/lib/data/products/types";
 import { ProductParallaxCard } from "@/app/products/_components/ProductParallaxCard";
-import { ProductFilterBar, FILTER_GROUPS } from "@/app/products/_components/ProductFilterBar";
+import { ProductFilterBar } from "@/app/products/_components/ProductFilterBar";
 import type { FilterState } from "@/app/products/_components/ProductFilterBar";
-import CTAWithVerticalMarquee from "@/app/products/_components/cta-with-text-marquee";
 
 const CATEGORIES: ProductCategory[] = [
   "soft-starter",
@@ -22,39 +22,69 @@ const CATEGORIES: ProductCategory[] = [
 
 const ITEMS_PER_PAGE = 9;
 
+// ─── Build a /products URL from a FilterState ──────────────────────────────────
+function buildFilterUrl(f: FilterState): string {
+  // Brand-only filter → use clean path-based URL for SEO
+  if (f.brand && !f.category && !f.voltage && !f.application && !f.industry) {
+    return `/products/brand/${f.brand}`;
+  }
+  const qs = new URLSearchParams();
+  if (f.brand)       qs.set("brand",       f.brand);
+  if (f.category)    qs.set("category",    f.category);
+  if (f.voltage)     qs.set("voltage",     f.voltage);
+  if (f.application) qs.set("application", f.application);
+  if (f.industry)    qs.set("industry",    f.industry);
+  const s = qs.toString();
+  return s ? `/products?${s}` : "/products";
+}
+
 // ─── Main client component ─────────────────────────────────────────────────────
-export default function ProductsClient() {
+export default function ProductsClient({ initialFilters }: { initialFilters?: FilterState }) {
+  const searchParams = useSearchParams();
+  const router       = useRouter();
+
+  // Derive filter state from URL params; fall back to initialFilters (SSR seed from category page)
+  const hasUrlParams =
+    searchParams.has("brand") || searchParams.has("category") ||
+    searchParams.has("voltage") || searchParams.has("application") || searchParams.has("industry");
+
+  const filters: FilterState = hasUrlParams
+    ? {
+        brand:       searchParams.get("brand")       ?? "",
+        category:    searchParams.get("category")    ?? "",
+        voltage:     searchParams.get("voltage")     ?? "",
+        application: searchParams.get("application") ?? "",
+        industry:    searchParams.get("industry")    ?? "",
+      }
+    : (initialFilters ?? { brand: "", category: "", voltage: "", application: "", industry: "" });
+
   const [query, setQuery]               = useState("");
-  const [filters, setFilters]           = useState<FilterState>({ brand: "", category: "", voltage: "", application: "", industry: "" });
   const [currentPage, setCurrentPage]   = useState(1);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const sectionRef                      = useRef<HTMLDivElement>(null);
+
+  // Reset page when URL/filters change externally (navbar navigation, back button)
+  useEffect(() => {
+    setCurrentPage(1);
+    setQuery("");
+  }, [searchParams]);
 
   const allProducts = useMemo(() => getAllProducts(), []);
 
   const activeCount = Object.values(filters).filter((v) => v !== "").length;
 
-  const clearFilters = () => setFilters({ brand: "", category: "", voltage: "", application: "", industry: "" });
+  const clearFilters = () => router.push("/products");
 
   const toggleFilter = (key: keyof FilterState, value: string) => {
     setQuery("");
-    setFilters(prev => ({ ...prev, [key]: prev[key] === value ? "" : value }));
+    setCurrentPage(1);
+    const toggled = filters[key] === value ? "" : value;
+    const next = { ...filters, [key]: toggled };
+    // category ↔ brand are linked: switching one resets the other
+    if (key === "category" && toggled !== "") next.brand = "";
+    if (key === "brand"    && toggled !== "") next.category = "";
+    router.push(buildFilterUrl(next));
   };
   const hasActiveFilters = Object.values(filters).some(v => v !== "");
-
-  // Auto-scroll to section when any filter is applied
-  useEffect(() => {
-    if (!hasActiveFilters) return;
-    const timer = setTimeout(() => {
-      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 80);
-    return () => clearTimeout(timer);
-  }, [filters]);
-
-  // Reset to page 1 when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters]);
 
   // Live search — null means "no search active, show catalog"
   const searchResults = useMemo(() => {
@@ -71,13 +101,7 @@ export default function ProductsClient() {
 
   const handleQueryChange = (value: string) => {
     setQuery(value);
-    if (value.trim()) {
-      setFilters({ brand: "", category: "", voltage: "", application: "", industry: "" });
-      setCurrentPage(1);
-      setTimeout(() => {
-        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 80);
-    }
+    setCurrentPage(1);
   };
 
   // Filtered + sorted product list for the main catalog
@@ -123,24 +147,25 @@ export default function ProductsClient() {
   return (
     <main>
       {/* ── Filter Sidebar + Products ──────────────────────────────────────── */}
-      <section ref={sectionRef} className="bg-white flex mt-24 items-start">
+      <section className="bg-white flex items-start min-h-screen">
 
-            {/* ── Sidebar (desktop only) ────────────────────────────────── */}
-            <aside className="hidden lg:flex lg:flex-col w-64 xl:w-96 shrink-0 self-stretch bg-[#0D0D0D] border-r border-[#1A1A1A]">
-              <div className="px-5 py-8">
-                <ProductFilterBar
+            {/* ── Sidebar (desktop only) — black column fills full section height ── */}
+            <div className="hidden lg:block w-72 xl:w-[480px] bg-black shrink-0 border-r border-[#1A1A1A] self-stretch">
+              <aside className="flex flex-col sticky top-0 h-screen z-[60]">
+              <ProductFilterBar
                   filters={filters}
                   toggleFilter={toggleFilter}
                   clearFilters={clearFilters}
                   hasActiveFilters={hasActiveFilters}
                   query={query}
                   onQueryChange={handleQueryChange}
+                  className="h-full"
                 />
-              </div>
-            </aside>
+              </aside>
+            </div>
 
             {/* ── Main content column ───────────────────────────────────── */}
-            <div className="flex-1 min-w-0 px-6 sm:px-8 lg:px-10 py-10 lg:py-14">
+            <div className="flex-1 min-w-0 mt-20 px-6 sm:px-8 lg:px-10 py-10 lg:py-14">
 
               {/* Mobile filter toggle */}
               <div className="lg:hidden mb-6">
@@ -174,7 +199,7 @@ export default function ProductsClient() {
                         hasActiveFilters={hasActiveFilters}
                         query={query}
                         onQueryChange={handleQueryChange}
-                        className="pt-4"
+                        className=""
                       />
                     </motion.div>
                   )}
@@ -254,19 +279,34 @@ export default function ProductsClient() {
                   >
                     {/* Heading */}
                     <div className="mb-8 pb-6 border-b border-[#F4F4F4]">
-                      {hasActiveFilters ? (
+                      {filteredProducts.length === 0 && hasActiveFilters ? (
                         <>
                           <p className="font-heading text-[#1B6240] text-[10px] uppercase tracking-[0.4em] mb-1">
                             Filtered Results
                           </p>
-                          <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-none text-[#1A1A1A]">
-                            {filteredProducts.length > 0
-                              ? `${filteredProducts.length} PRODUCTS FOUND`
-                              : "NO PRODUCTS FOUND"}
+                          <h2 className="font-display font-extrabold text-7xl leading-none text-[#1A1A1A]">
+                            NO PRODUCTS FOUND
+                          </h2>
+                        </>
+                      ) : filters.category ? (
+                        <h2 className="font-display font-extrabold text-7xl leading-none text-[#1A1A1A]">
+                          {(categoryNames[filters.category as ProductCategory] ?? filters.category).toUpperCase()}
+                        </h2>
+                      ) : filters.brand ? (
+                        <h2 className="font-display font-extrabold text-7xl leading-none text-[#1A1A1A]">
+                          {(brandNames[filters.brand as keyof typeof brandNames] ?? filters.brand).toUpperCase()} PRODUCTS
+                        </h2>
+                      ) : hasActiveFilters ? (
+                        <>
+                          <p className="font-heading text-[#1B6240] text-[10px] uppercase tracking-[0.4em] mb-1">
+                            Filtered Results
+                          </p>
+                          <h2 className="font-display font-extrabold text-7xl leading-none text-[#1A1A1A]">
+                            {filteredProducts.length} PRODUCTS FOUND
                           </h2>
                         </>
                       ) : (
-                        <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-none text-[#1A1A1A]">
+                        <h2 className="font-display font-extrabold text-7xl leading-none text-[#1A1A1A]">
                           ALL PRODUCTS
                         </h2>
                       )}
@@ -347,7 +387,7 @@ export default function ProductsClient() {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <CTAWithVerticalMarquee />
+      {/* <CTAWithVerticalMarquee /> */} 
     </main>
   );
 }

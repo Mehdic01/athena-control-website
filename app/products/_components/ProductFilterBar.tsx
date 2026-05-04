@@ -1,12 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useMemo } from "react";
-import {
-  X, Search,
-  Waves, Settings2, Wind, Gauge, Fan, ArrowRight,
-  Factory, Flame, Zap, Anchor, Droplets, FlaskConical,
-  type LucideIcon,
-} from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { X, Search, ChevronDown } from "lucide-react";
 import { getAllProducts } from "@/lib/data/products/utils";
 
 // ─── Filter data ───────────────────────────────────────────────────────────────
@@ -89,45 +85,22 @@ export type FilterState = {
   industry: string;
 };
 
-// ─── Static maps ───────────────────────────────────────────────────────────────
-const brandLogos: Record<string, string> = {
-  motortronics:   "/images/logo/motortronics-logo.png",
-  renle:          "/images/logo/renle-logo.png",
-  shinkawa:       "/images/logo/shinkawa-logo.png",
-  "athena-valve": "/images/logo/athena-valve-logo.png",
-  valentech:      "/images/logo/valentech-logo.webp",
+// ─── Constants ─────────────────────────────────────────────────────────────────
+const SPRING = "cubic-bezier(0.25, 1.1, 0.4, 1)";
+
+// Square brand logos for the icon rail — rendered without CSS colour filters
+// so the image always looks correct regardless of file background type.
+const BRAND_LOGOS2: Record<string, string> = {
+  motortronics:   "/images/logo/motortronics-logo2.png",
+  renle:          "/images/logo/renle-logo2.png",
+  shinkawa:       "/images/logo/shinkawa-logo2.png",
+  "athena-valve": "/images/logo/athena-valve-logo2.png",
+  valentech:      "/images/logo/valentech-logo2.png",
 };
 
-const applicationIcons: Record<string, LucideIcon> = {
-  pump:       Waves,
-  motor:      Settings2,
-  turbine:    Wind,
-  compressor: Gauge,
-  fan:        Fan,
-  conveyor:   ArrowRight,
-};
+const BRANDS = FILTER_GROUPS.find((g) => g.key === "brand")!.options;
 
-const industryIcons: Record<string, LucideIcon> = {
-  manufacturing: Factory,
-  "oil-gas":     Flame,
-  power:         Zap,
-  marine:        Anchor,
-  water:         Droplets,
-  petrochem:     FlaskConical,
-};
-
-// ─── Section heading ───────────────────────────────────────────────────────────
-function GroupLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <span className="font-heading text-[10px] uppercase tracking-[0.45em] text-white/25 shrink-0 leading-none">
-        {children}
-      </span>
-      <div className="flex-1 h-px bg-white/[0.07]" />
-    </div>
-  );
-}
-
+// ─── Props ─────────────────────────────────────────────────────────────────────
 interface ProductFilterBarProps {
   filters: FilterState;
   toggleFilter: (key: keyof FilterState, value: string) => void;
@@ -150,6 +123,21 @@ export function ProductFilterBar({
 }: ProductFilterBarProps) {
   const activeCount = Object.values(filters).filter((v) => v !== "").length;
 
+  const [openSections, setOpenSections] = useState<Set<string>>(
+    () => new Set(filters.category ? ["categories"] : [])
+  );
+
+  // When filters are synced externally (URL navigation), auto-open the relevant section
+  const filtersCategory = filters.category;
+  useEffect(() => {
+    if (filtersCategory) {
+      setOpenSections((prev) => {
+        if (prev.has("categories")) return prev;
+        return new Set([...prev, "categories"]);
+      });
+    }
+  }, [filtersCategory]);
+
   const categoryCounts = useMemo(() => {
     const products = getAllProducts();
     return products.reduce<Record<string, number>>((acc, p) => {
@@ -158,240 +146,316 @@ export function ProductFilterBar({
     }, {});
   }, []);
 
-  const voltageOpts      = FILTER_GROUPS.find((g) => g.key === "voltage")!.options;
-  const activeVoltageIdx = voltageOpts.findIndex((v) => v.key === filters.voltage);
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  };
 
-  // Fill track from first stop center → selected stop center.
-  // Buttons are flex justify-between with w-7 dots; first center = 14px, last = container-14px.
-  const fillWidth =
-    activeVoltageIdx <= 0
-      ? 0
-      : activeVoltageIdx === 1
-      ? "calc(50% - 14px)"
-      : "calc(100% - 28px)";
+  const voltageOpts = FILTER_GROUPS.find((g) => g.key === "voltage")!.options;
+
+  const allCategoryOpts = FILTER_GROUPS.find((g) => g.key === "category")!.options;
 
   return (
-    <div className={`space-y-7 ${className}`}>
+    <div
+      className={`relative flex flex-col overflow-hidden bg-black ${className}`}
+    >
+      <div className="absolute inset-0 bg-black pointer-events-none" />
 
-      {/* ── Optional sidebar search ─────────────────────────────── */}
-      {onQueryChange && (
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 pointer-events-none" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Search products…"
-            className="w-full pl-9 pr-8 py-2.5 bg-white/[0.05] border border-white/[0.1] font-sans text-xs text-white/80 placeholder-white/20 outline-none focus:border-white/20 transition-colors"
+      {/* ═══════════════════════════════════════════════════════════
+          LOGO HEADER — full-width, above both columns
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="relative z-10 flex items-center px-4 mt-6 pb-3 shrink-0 border-b border-white/10">
+        <div className="relative h-18 w-60">
+          <Image
+            src="/images/logo/logo_without_bg.png"
+            alt="Athena Control"
+            fill
+            className="object-cover object-left"
+            style={{ filter: "brightness(0) invert(1)" }}
           />
-          {query && (
-            <button
-              onClick={() => onQueryChange("")}
-              aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-white/25 hover:text-white/70 transition-colors"
-            >
-              <X className="w-3 h-3" />
-            </button>
-          )}
         </div>
-      )}
+      </div>
 
-      {/* ── Header ──────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between pb-4 border-b border-white/[0.07]">
-        <div className="flex items-baseline gap-3">
-          <span className="font-display text-[30px] leading-none text-white/90 tracking-wide">
-            FILTERS
-          </span>
-          {activeCount > 0 && (
-            <span className="font-heading text-[9px] leading-none text-[#1B6240] border border-[#1B6240]/50 px-1.5 py-0.5 tabular-nums">
-              {activeCount}
-            </span>
-          )}
+      {/* ═══════════════════════════════════════════════════════════
+          TWO-COLUMN ROW — left rail + right panel
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="relative flex flex-row flex-1 min-h-0 overflow-hidden">
+
+      {/* ═══════════════════════════════════════════════════════════
+          LEFT ICON RAIL — brand logos only
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="relative z-10 flex flex-col items-center gap-1 py-5 px-12 border-r-1 border-white/20 w-22 pt-8 shrink-0">
+
+               {/* ── All Products ── */}
+        {(() => {
+          const isAllActive = filters.brand === "";
+          return (
+            <Link
+              href="/products"
+              title="All Products"
+              className={`flex items-center justify-center w-16 h-16 rounded-lg transition-all duration-300 ${
+                isAllActive
+                  ? "bg-white/[0.15] ring-2 ring-black"
+                  : "hover:bg-white/[0.07]"
+              }`}
+              style={{ transitionTimingFunction: SPRING }}
+            >
+              <div className="relative w-14 h-14">
+                <h1 className="font-heading text-[20px] uppercase text-white tracking-[0.3em] absolute inset-0 flex items-center justify-center">
+                  ALL
+                </h1>
+
+              </div>
+            </Link>
+          );
+        })()}
+
+        {/* ── Divider ── */}
+        <div className="w-6 h-0.5 bg-white/[0.12] my-1 shrink-0" />
+
+        {/* ── Brand logo buttons ── */}
+        <div className="flex flex-col gap-4 items-center w-full pt-4">
+          {BRANDS.map((brand) => {
+            const isActive = filters.brand === brand.key;
+            const brandHref = isActive ? "/products" : `/products/brand/${brand.key}`;
+            return (
+              <Link
+                key={brand.key}
+                href={brandHref}
+                title={brand.label}
+                className={`group flex items-center justify-center w-12 h-12 rounded-lg cursor-pointer transition-all duration-300 ${
+                  isActive
+                    ? "bg-white/[0.15] ring-2 ring-black"
+                    : "hover:bg-white/[0.1]"
+                }`}
+                style={{ transitionTimingFunction: SPRING }}
+              >
+                <div className={`relative ${brand.key === "shinkawa" || brand.key === "renle" || brand.key === "athena-valve" ? "w-13 h-14" : "w-8 h-8"}`}>
+                  <Image
+                    src={BRAND_LOGOS2[brand.key]}
+                    alt={brand.label}
+                    fill
+                    className={`object-contain transition-opacity duration-200 ${
+                      isActive
+                        ? "opacity-100"
+                        : "opacity-[0.7] group-hover:opacity-100"
+                    }`}
+                  />
+                </div>
+              </Link>
+            );
+          })}
         </div>
+
+        {/* Clear all filters */}
         {hasActiveFilters && (
-          <button
-            onClick={clearFilters}
-            className="flex items-center gap-1.5 font-heading text-[9px] uppercase tracking-[0.3em] text-white/20 hover:text-white/60 transition-colors"
-          >
-            <X className="w-2 h-2" /> Clear
-          </button>
+          <div className="mt-auto">
+            <button
+              type="button"
+              title="Clear all filters"
+              onClick={clearFilters}
+              className="flex items-center justify-center w-10 h-10 rounded-lg text-white/20 hover:bg-white/[0.07] hover:text-white/60 transition-colors duration-300"
+              style={{ transitionTimingFunction: SPRING }}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         )}
       </div>
 
-      {/* ── Brand — white floating logo cards ───────────────────── */}
-      {/*
-        Logos are designed for light backgrounds; placing them on pure-white
-        cards floating in the dark sidebar creates a "display case" effect
-        and keeps brand colours accurate.
-      */}
-      <div>
-        <GroupLabel>Brand</GroupLabel>
-        <div className="grid grid-cols-2 gap-1.5">
-          {FILTER_GROUPS.find((g) => g.key === "brand")!.options.map((option) => {
-            const isActive = filters.brand === option.key;
-            const logoSrc  = brandLogos[option.key];
-            return (
-              <button
-                key={option.key}
-                onClick={() => toggleFilter("brand", option.key)}
-                className={`relative h-12 overflow-hidden transition-all duration-150 ${
-                  isActive
-                    ? "bg-white ring-2 ring-[#1B6240] ring-offset-2 ring-offset-[#0D0D0D]"
-                    : "bg-white/90 hover:bg-white"
-                }`}
-              >
-                {logoSrc ? (
-                  <Image
-                    src={logoSrc}
-                    alt={option.label}
-                    fill
-                    className="object-contain p-2.5"
-                  />
-                ) : (
-                  <span className="font-heading text-[9px] uppercase tracking-wider text-[#6B6B6B]">
-                    {option.label}
-                  </span>
-                )}
-                {isActive && (
-                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#1B6240]" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* ═══════════════════════════════════════════════════════════
+          RIGHT DETAIL PANEL
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="relative z-10 flex flex-col flex-1 min-w-0">
 
-      {/* ── Categories — dark pill cloud with counts ─────────────── */}
-      <div>
-        <GroupLabel>Categories</GroupLabel>
-        <div className="flex flex-wrap gap-1.5">
-          {FILTER_GROUPS.find((g) => g.key === "category")!.options.map((option) => {
-            const isActive = filters.category === option.key;
-            const count    = categoryCounts[option.key] ?? 0;
-            return (
-              <button
-                key={option.key}
-                onClick={() => toggleFilter("category", option.key)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-heading text-[9.5px] uppercase tracking-[0.08em] leading-none transition-all duration-150 ${
-                  isActive
-                    ? "bg-white border-white text-[#0D0D0D]"
-                    : "border-white/[0.12] text-white/35 hover:border-white/25 hover:text-white/65"
-                }`}
-              >
-                {option.label}
-                <span className={`font-sans text-[8.5px] leading-none ${
-                  isActive ? "text-[#0D0D0D]/45" : "text-white/20"
-                }`}>
-                  ({count})
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* ── Voltage — 3-stop dark rail ───────────────────────────── */}
-      <div>
-        <GroupLabel>Voltage</GroupLabel>
-        <div className="relative mt-1 pb-7">
-          {/* Base track */}
-          <div className="absolute top-[14px] left-[14px] right-[14px] h-px bg-white/[0.12]" />
-          {/* Active fill */}
-          <div
-            className="absolute top-[14px] left-[14px] h-px bg-white/55 transition-all duration-300 ease-out"
-            style={{ width: fillWidth }}
-          />
-          {/* Three stops */}
-          <div className="flex justify-between">
-            {voltageOpts.map((opt, i) => {
-              const isActive = filters.voltage === opt.key;
-              const isPassed = activeVoltageIdx >= 0 && i < activeVoltageIdx;
-              return (
+
+        {/* ── Search — rounded dark pill matching reference ── */}
+        {onQueryChange && (
+          <div className="px-3 pt-12 pb-8 border-white/20 shrink-0">
+            <div className="relative h-12 rounded-lg flex items-center bg-black border border-white/30=40 overflow-hidden">
+              <div className="w-8 h-full flex items-center justify-center shrink-0">
+                <Search className="w-4 h-4 text-white/30" />
+              </div>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => onQueryChange(e.target.value)}
+                placeholder="Search products, brands, categories…"
+                className="flex-1 bg-transparent font-sans text-[13px] text-white/80 placeholder-white/30 outline-none leading-none"
+              />
+              {query && (
                 <button
-                  key={opt.key}
-                  onClick={() => toggleFilter("voltage", opt.key)}
-                  className="flex flex-col items-center gap-2.5 group"
+                  onClick={() => onQueryChange("")}
+                  aria-label="Clear search"
+                  className="w-8 h-full flex items-center justify-center shrink-0 text-white/25 hover:text-white/70 transition-colors"
                 >
-                  <div className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                    isActive
-                      ? "bg-white border-white"
-                      : isPassed
-                      ? "bg-white/20 border-white/25"
-                      : "bg-white/[0.05] border-white/[0.15] group-hover:border-white/30"
-                  }`}>
-                    {isActive && <div className="w-2.5 h-2.5 rounded-full bg-[#0D0D0D]" />}
-                    {isPassed && <div className="w-1.5 h-1.5 rounded-full bg-white/50" />}
-                  </div>
-                  <span className={`font-heading text-[9px] uppercase tracking-[0.2em] leading-none transition-colors ${
-                    isActive ? "text-white" : "text-white/30"
-                  }`}>
-                    {opt.label}
-                  </span>
+                  <X className="w-3.5 h-3.5" />
                 </button>
-              );
-            })}
+              )}
+            </div>
           </div>
+        )}
+
+        {/* ── Section meta-label ── */}
+        <div className="flex items-center h-11 px-4 shrink-0">
+          <span className="font-heading text-[20px] uppercase tracking-[0.4em] text-white/25 leading-none">
+            Filter By
+          </span>
+        </div>
+
+        {/* ── Scrollable filter sections ── */}
+        <div className="flex-1 overflow-y-auto min-h-0 px-2 pb-4 space-y-0.5">
+
+          {/* Categories — all 13 */}
+          <FilterGroup
+            label="Categories"
+            isOpen={openSections.has("categories")}
+            onToggle={() => toggleSection("categories")}
+          >
+            {allCategoryOpts.map((opt) => (
+              <SubItem
+                key={opt.key}
+                label={opt.label}
+                isActive={filters.category === opt.key}
+                onClick={() => toggleFilter("category", opt.key)}
+                count={categoryCounts[opt.key]}
+              />
+            ))}
+          </FilterGroup>
+
+          {/* Voltage */}
+          <FilterGroup
+            label="Voltage"
+            isOpen={openSections.has("voltage")}
+            onToggle={() => toggleSection("voltage")}
+          >
+            {voltageOpts.map((opt) => (
+              <SubItem
+                key={opt.key}
+                label={opt.label}
+                isActive={filters.voltage === opt.key}
+                onClick={() => toggleFilter("voltage", opt.key)}
+              />
+            ))}
+          </FilterGroup>
+
+          {/* Application — no icons */}
+          <FilterGroup
+            label="Application"
+            isOpen={openSections.has("application")}
+            onToggle={() => toggleSection("application")}
+          >
+            {FILTER_GROUPS.find((g) => g.key === "application")!.options.map((opt) => (
+              <SubItem
+                key={opt.key}
+                label={opt.label}
+                isActive={filters.application === opt.key}
+                onClick={() => toggleFilter("application", opt.key)}
+              />
+            ))}
+          </FilterGroup>
+
+          {/* Industry — no icons */}
+          <FilterGroup
+            label="Industry"
+            isOpen={openSections.has("industry")}
+            onToggle={() => toggleSection("industry")}
+          >
+            {FILTER_GROUPS.find((g) => g.key === "industry")!.options.map((opt) => (
+              <SubItem
+                key={opt.key}
+                label={opt.label}
+                isActive={filters.industry === opt.key}
+                onClick={() => toggleFilter("industry", opt.key)}
+              />
+            ))}
+          </FilterGroup>
+
         </div>
       </div>
+      </div>{/* end two-column row */}
+    </div>
+  );
+}
 
-      {/* ── Application — dark icon chips ───────────────────────── */}
-      <div>
-        <GroupLabel>Application</GroupLabel>
-        <div className="grid grid-cols-2 gap-1">
-          {FILTER_GROUPS.find((g) => g.key === "application")!.options.map((option) => {
-            const isActive = filters.application === option.key;
-            const Icon     = applicationIcons[option.key];
-            return (
-              <button
-                key={option.key}
-                onClick={() => toggleFilter("application", option.key)}
-                className={`flex items-center gap-2 px-2.5 py-2 border transition-all duration-150 ${
-                  isActive
-                    ? "bg-white/[0.09] border-white/25 text-white"
-                    : "bg-white/[0.03] border-white/[0.08] text-white/35 hover:bg-white/[0.05] hover:border-white/15 hover:text-white/65"
-                }`}
-              >
-                {Icon && (
-                  <span className={`w-5 h-5 flex items-center justify-center shrink-0 rounded-sm ${
-                    isActive ? "bg-white/15" : "bg-white/[0.07]"
-                  }`}>
-                    <Icon className="w-3 h-3" />
-                  </span>
-                )}
-                <span className="font-heading text-[9px] uppercase tracking-[0.08em] leading-tight text-left">
-                  {option.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+// ─── FilterGroup ───────────────────────────────────────────────────────────────
+function FilterGroup({
+  label, isOpen, onToggle, children,
+}: {
+  label: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="w-full">
+      <div
+        role="button"
+        onClick={onToggle}
+        className={`flex items-center w-full h-10 px-3 py-6 rounded-lg cursor-pointer select-none transition-colors duration-200 ${
+          isOpen ? "bg-white/[0.07]" : "hover:bg-white/[0.05]"
+        }`}
+        style={{ transitionTimingFunction: SPRING }}
+      >
+        <span className="flex-1 font-heading text-[24px] uppercase tracking-[0.15em] text-white leading-none">
+          {label}
+        </span>
+        <ChevronDown
+          className="w-4 h-4 text-white/25 shrink-0 transition-transform duration-300"
+          style={{
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transitionTimingFunction: SPRING,
+          }}
+        />
       </div>
 
-      {/* ── Industry — pill cloud, green on active ───────────────── */}
-      <div>
-        <GroupLabel>Industry</GroupLabel>
-        <div className="flex flex-wrap gap-1.5">
-          {FILTER_GROUPS.find((g) => g.key === "industry")!.options.map((option) => {
-            const isActive = filters.industry === option.key;
-            const Icon     = industryIcons[option.key];
-            return (
-              <button
-                key={option.key}
-                onClick={() => toggleFilter("industry", option.key)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-heading text-[9.5px] uppercase tracking-[0.1em] transition-all duration-150 ${
-                  isActive
-                    ? "bg-[#1B6240] border-[#1B6240] text-white"
-                    : "border-white/[0.1] text-white/30 hover:border-white/20 hover:text-white/60"
-                }`}
-              >
-                {Icon && <Icon className="w-3 h-3 shrink-0" />}
-                {option.label}
-              </button>
-            );
-          })}
+      {isOpen && (
+        <div className="flex flex-col gap-[1px] mb-1 mt-[1px]">
+          {children}
         </div>
-      </div>
+      )}
+    </div>
+  );
+}
 
+// ─── SubItem ───────────────────────────────────────────────────────────────────
+function SubItem({
+  label, isActive, onClick, count,
+}: {
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+  count?: number;
+}) {
+  return (
+    <div className="w-full pr-1 py-[1px]">
+      <button
+        onClick={onClick}
+        className={`group flex items-center w-full h-9 justify-start text-left rounded-lg px-3 transition-colors duration-150 ${
+          isActive ? "bg-white/[0.08]" : "hover:bg-white/[0.05]"
+        }`}
+        style={{ transitionTimingFunction: SPRING }}
+      >
+        {isActive && (
+          <div className="w-px h-4 bg-white/50 shrink-0 mr-2.5 -ml-1" />
+        )}
+        <span className={`flex-1 font-heading text-[12px] uppercase tracking-[0.08em] leading-none truncate transition-colors ${
+          isActive ? "text-white" : "text-white/40 group-hover:text-white/65"
+        }`}>
+          {label}
+        </span>
+        {count !== undefined && (
+          <span className={`font-sans text-[10px] tabular-nums shrink-0 ml-2 transition-colors ${
+            isActive ? "text-white/60" : "text-white/20"
+          }`}>
+            {count}
+          </span>
+        )}
+      </button>
     </div>
   );
 }

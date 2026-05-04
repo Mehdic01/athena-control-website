@@ -141,6 +141,11 @@
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+/* Gap-aware marquee for card rows (accounts for flex gap between the two copies) */
+@keyframes marquee-cards {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - var(--gap, 1.5rem))); }
+}
 
 @layer utilities {
   .animate-marquee {
@@ -152,4 +157,9 @@
   .animate-fade-in-up {
     animation: fade-in-up 0.6s ease-out both;
   }
+  .animate-marquee-cards {
+    animation: marquee-cards var(--duration, 40s) linear infinite;
+  }
 }
+
+/* Button01 styles → components/ui/contact-button.module.css */

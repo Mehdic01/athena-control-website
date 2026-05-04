@@ -6,7 +6,7 @@ Project documentation for AI-assisted development. Keep this file updated when m
 
 ## Project Overview
 
-**Athena Control** is the official Turkish distributor for Motortronics (soft starters), SHINKAWA Electric (vibration monitoring systems and condition monitor), RENLE (Frequency Inverter), and Athena Valve(Industrial Valves). Sister company of Athena Group. Based in Bayraklı, İzmir, Turkey.
+**Athena Control** is the official distributor for Motortronics (soft starters), SHINKAWA Electric (vibration sensors and condition monitor), RENLE (Frequency Inverter), and Athena Valve (industrial valves — 6 categories) and ValenTech (actuators — 3 categories). Sister company of Athena Group. Based in Bayraklı, İzmir, Turkey.
 
 **Website purpose:** B2B corporate marketing and product catalog. Targets industrial engineers and procurement teams in Turkey. 
 
@@ -41,10 +41,10 @@ app/
     page.tsx              — About us page
     _components/          — avatar.tsx, team-showcase.tsx
   brands/
-    page.tsx              — Partner brands page (all 4 brands from lib/data/brands/brands.ts)
+    page.tsx              — Partner brands page (all brands from lib/data/brands/brands.ts)
     _components/          — map.tsx, profile-card-testimonial-carousel.tsx
   products/
-    page.tsx              — Full product catalog (all 21 products, grouped by category)
+    page.tsx              — Full product catalog (all products, grouped by category)
     ProductsClient.tsx    — "use client" wrapper for the products catalog page
     _components/          — ProductFilterBar.tsx, ProductParallaxCard.tsx, CategoryShowcase.tsx,
                             CategoryProductSection.tsx, ProductSectionNav.tsx,
@@ -76,7 +76,7 @@ components/               — Global only: layout, shadcn primitives, shared uti
 lib/
   data/
     brands/
-      brands.ts           — All 4 partner brands (Brand interface + brands array)
+      brands.ts           — All partner brands (Brand interface + brands array)
       athenacontrol.ts    — Athena Control company data (CompanyStat, values, industries, contactInfo)
       index.ts            — Re-exports from this directory
     gallery/
@@ -85,7 +85,8 @@ lib/
       navigation.ts       — navLinks, productDropdown, footerProductLinks, footerCompanyLinks
     products/
       types.ts            — Unified Product type + Brand/ProductCategory unions
-      index.ts            — Re-exports from motortronics/, renle/, shinkawa/
+      index.ts            — Re-exports from motortronics/, renle/, shinkawa/, athena-valve/, valentech/
+      utils.ts            — getAllProducts(), allProductRecords, brandNames, categoryNames, categoryDescriptions
       motortronics/
         soft-starters/
           low-voltage/
@@ -109,10 +110,57 @@ lib/
         condition-monitor/
           index.ts        — conditionMonitorProducts record, conditionMonitorCards
           vm-5-series.ts / vm-7-series.ts / vm-21-series.ts / vm-25-series.ts
+      athena-valve/
+        index.ts          — Re-exports all valve categories
+        ball-valve/
+          index.ts        — ballValveProducts record
+          [slug].ts × N
+        butterfly-valve/
+          index.ts        — butterflyValveProducts record
+          [slug].ts × N
+        gate-valve/
+          index.ts        — gateValveProducts record
+          [slug].ts × N
+        globe-valve/
+          index.ts        — globeValveProducts record
+          [slug].ts × N
+        check-valve/
+          index.ts        — checkValveProducts record (6 products)
+          axial-flow-check-valve.ts / normal-swing-check-valve.ts / dual-plate-check-valve.ts
+          y-type-check-valve.ts / pressure-seal-swing-check-valve.ts / lift-type-check-valve.ts
+        plug-valve/
+          index.ts        — plugValveProducts record (3 products)
+          pressure-balance-plug-valve.ts / plug-valve.ts / orbital-plug-valve.ts
+      valentech/
+        index.ts          — Re-exports all actuator categories
+        pneumatic-actuator/
+          index.ts        — pneumaticActuatorProducts record (5 products)
+          spring-return-fork-type-pneumatic-actuator.ts / double-acting-fork-type-pneumatic-actuator.ts
+          linear-pneumatic-actuator.ts / rack-and-pinion-pneumatic-actuator.ts
+          fast-ultra-fast-acting-pneumatic-actuator.ts
+        electric-actuator/
+          index.ts        — electricActuatorProducts record (4 products)
+          multi-turn-electric-actuator.ts / compact-module-electric-actuator.ts
+          partially-rotary-electric-actuator.ts / angular-travel-electric-actuator.ts
+        complete-actuator-equipment/
+          index.ts        — completeActuatorEquipmentProducts record (6 products)
+          ball-valve-with-pneumatic-actuator.ts / butterfly-valve-with-pneumatic-actuator.ts
+          gate-valve-with-pneumatic-actuator.ts / ball-valve-with-electric-actuator.ts
+          gate-valve-with-electric-actuator.ts / butterfly-valve-with-electric-actuator.ts
 
 public/images/
   logo/       — athena-logo.png (color), athena-logo-white.png (footer)
-  products/   — vmx-synergy-plus.png, vmx-synergy.png, vmx-agility.png, vmx-pfe.png, mvc-4.png
+  products/
+    soft-starters/               — vmx-synergy-plus.png, vmx-synergy.png, vmx-agility.png, vmx-pfe.png, mvc-4.png
+    ball-valves/                 — [slug].png per product
+    butterfly-valves/            — [slug].png per product
+    gate-valves/                 — [slug].png per product
+    globe-valves/                — [slug].png per product
+    check-valves/                — [slug].png per product
+    plug-valves/                 — [slug].png per product
+    pneumatic-actuator/          — [slug].png per product
+    electric-actuator/           — [slug].png per product
+    complete-actuator-equipment/ — [slug].png per product
   brands/     — motortronics.png, athena-group.png, shinkawa.png, renle-logo.webp
   gallery/    — photo-1.jpg ... photo-14.jpg, win-eurasia.webp
   hero/       — banner02.jpg, banner03.jpg, banner04.jpg
@@ -137,6 +185,8 @@ All product data is sourced from the **official manufacturer websites** and adap
 | Motortronics | `motortronics.com` — VMX and MVC product pages |
 | SHINKAWA Electric | `shinkawa.co.jp` — vibration sensor and condition monitor pages |
 | RENLE | `renle.com` — RNB and RNHV frequency inverter pages |
+| Athena Valve | `athenavalve.com` — ball, butterfly, gate, globe, check, and plug valve pages |
+| ValenTech | `valen-tech.com` — pneumatic actuator, electric actuator, and complete actuator equipment pages |
 
 **When filling a product data file:**
 - Pull specs, feature descriptions, and option names directly from the manufacturer's product detail page
@@ -161,7 +211,7 @@ export interface Brand {
   icon: ElementType;  // Lucide icon component stored by reference
   showcaseImages: string[]; // up to 3 product image paths for the brand showcase on /products — empty for non-distributor brands
 }
-export const brands: Brand[] = [ /* 4 brands */ ];
+export const brands: Brand[] = [ /* all brands */ ];
 ```
 
 **Logo fallback pattern**: `{brand.logo ? <Image src={brand.logo} ... /> : <span>{brand.name}</span>}` — RENLE currently has `logo: ""` until `renle.png` is added to `public/images/brands/`.
@@ -171,8 +221,11 @@ export const brands: Brand[] = [ /* 4 brands */ ];
 A single unified `Product` type is used for all brands and categories. No separate types per product category.
 
 ```ts
-export type Brand = "motortronics" | "renle" | "shinkawa";
-export type ProductCategory = "soft-starter" | "frequency-inverter" | "vibration-monitoring" | "condition-monitor";
+export type Brand = "motortronics" | "renle" | "shinkawa" | "athena-valve" | "valentech";
+export type ProductCategory =
+  | "soft-starter" | "frequency-inverter" | "vibration-sensors" | "condition-monitor"
+  | "ball-valve" | "butterfly-valve" | "gate-valve" | "globe-valve" | "check-valve" | "plug-valve"
+  | "pneumatic-actuator" | "electric-actuator" | "complete-actuator-equipment";
 
 export type Spec      = { label: string; value: string };
 export type SpecGroup = { title: string; specs: Spec[] };
@@ -208,9 +261,8 @@ All products use the unified `Product` type regardless of brand or category:
 
 1. Create a file in the appropriate brand/category directory (e.g., `lib/data/products/motortronics/soft-starters/low-voltage/vmx-<name>.ts`) exporting a `Product` object
 2. Import and add to the category `index.ts` record (e.g., `lvProducts`)
-3. Sitemap auto-generates from product records — no sitemap update needed for LV products
-
-**For MV or entirely new product types:** add to `sitemap.ts` manually.
+3. Add the category record to `allProductRecords` in `utils.ts` — also update `brandNames`, `categoryNames`, `categoryDescriptions` in the same file for any new brand or category
+4. Sitemap auto-generates from `getAllProducts()` — no manual sitemap update needed
 
 ### Frontend Product Page Strategy
 
@@ -343,7 +395,8 @@ Breadcrumbs are placed **after** the page hero section, in a `bg-[#F5F5F5]` bar 
 | Motortronics | Official Turkish Distributor | VMX soft starters (LV: 4 models), MVC 4 (MV) | `motortronics.png` |
 | SHINKAWA Electric | Official Turkish Distributor | Vibration sensors (6 series), Condition monitors (4 series) | `shinkawa.png` |
 | RENLE | Official Turkish Distributor | Frequency inverters (LV: 5 models, HV: RNHV series) | `renle-logo.webp` |
-| Athena Group | Sister Company | Industrial valves | `athena-group.png` |
+| Athena Valve | Sister Company (Athena Group) | Ball, butterfly, gate, globe, check, plug valves | `athena-group.png` |
+| ValenTech | Sister Company (Athena Group) | Pneumatic actuators (5), Electric actuators (4), Complete actuator equipment (6) | _(no logo file yet)_ |
 
 ---
 

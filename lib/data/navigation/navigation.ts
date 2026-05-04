@@ -20,6 +20,7 @@ export interface MegaMenuSection {
 
 export interface MegaMenuColumn {
   brand: string;
+  href: string; // brand page URL: /products/brand/[slug]
   sections: MegaMenuSection[];
 }
 
@@ -36,6 +37,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
   columns: [
     {
       brand: "Motortronics",
+      href: "/products/brand/motortronics",
       sections: [
         {
           subtitle: "Soft Starters",
@@ -63,6 +65,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
     },
     {
       brand: "SHINKAWA Electric",
+      href: "/products/brand/shinkawa",
       sections: [
         {
           subtitle: "Vibration Sensors",
@@ -90,6 +93,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
     },
     {
       brand: "RENLE",
+      href: "/products/brand/renle",
       sections: [
         {
           subtitle: "Frequency Inverters",
@@ -118,6 +122,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
     },
     {
       brand: "Athena Valve",
+      href: "/products/brand/athena-valve",
       sections: [
         {
           subtitle: "Industrial Valves",
@@ -202,6 +207,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
     },
     {
       brand: "ValenTech",
+      href: "/products/brand/valentech",
       sections: [
         {
           subtitle: "Pneumatic Actuators",
@@ -244,7 +250,7 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
 
 export const footerProductLinks: NavItem[] = [
   { label: "Soft Starters",        href: "/products/soft-starter" },
-  { label: "Vibration Sensors", href: "/products/vibration-sensors" },
+  { label: "Vibration Sensors",     href: "/products/vibration-sensors" },
   { label: "Condition Monitors",    href: "/products/condition-monitor" },
   { label: "Frequency Inverters",   href: "/products/frequency-inverter" },
   { label: "Accessories",           href: "https://www.motortronics.com/pages/products.html", external: true },

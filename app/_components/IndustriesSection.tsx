@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getAllProducts } from "@/lib/data/products/utils";
+import { getAllProducts, categoryNames } from "@/lib/data/products/utils";
 
 // ─── Industry → application keyword mapping ───────────────────────────────────
 // Used to filter products whose applications[] contain any of these keywords
@@ -47,7 +47,7 @@ const INDUSTRIES = INDUSTRIES_RAW.map((ind) => {
     ...ind,
     description:
       matching.length > 0
-        ? matching.map((p) => p.name).join(" · ")
+        ? [...new Set(matching.map((p) => p.category))].map((c) => categoryNames[c]).join(" · ")
         : "Contact us for tailored solutions in this sector.",
   };
 });

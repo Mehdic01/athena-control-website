@@ -139,67 +139,6 @@ export default function RotatingEarth({
     let rafId: number | null = null;
     let time = 0;
 
-    // ── Distribution arc helpers ─────────────────────────────────────────────
-    function drawArcLine(fromLng: number, fromLat: number, toLng: number, toLat: number) {
-      const interp = d3.geoInterpolate([fromLng, fromLat], [toLng, toLat]);
-
-      // Soft glow pass (wide, semi-transparent)
-      ctx.beginPath();
-      let penUp = true;
-      for (let i = 0; i <= 100; i++) {
-        const pt = interp(i / 100);
-        if (!isPointVisible(pt[0], pt[1], rotation)) { penUp = true; continue; }
-        const p = projection(pt as [number, number]);
-        if (!p) { penUp = true; continue; }
-        if (penUp) { ctx.moveTo(p[0], p[1]); penUp = false; }
-        else ctx.lineTo(p[0], p[1]);
-      }
-      ctx.strokeStyle = "rgba(255,255,255,0.12)";
-      ctx.lineWidth = 5;
-      ctx.stroke();
-
-      // Solid bright core line
-      ctx.beginPath();
-      penUp = true;
-      for (let i = 0; i <= 100; i++) {
-        const pt = interp(i / 100);
-        if (!isPointVisible(pt[0], pt[1], rotation)) { penUp = true; continue; }
-        const p = projection(pt as [number, number]);
-        if (!p) { penUp = true; continue; }
-        if (penUp) { ctx.moveTo(p[0], p[1]); penUp = false; }
-        else ctx.lineTo(p[0], p[1]);
-      }
-      ctx.strokeStyle = "rgba(255,255,255,0.55)";
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-    }
-
-    function drawArcDots(fromLng: number, fromLat: number, toLng: number, toLat: number) {
-      const interp = d3.geoInterpolate([fromLng, fromLat], [toLng, toLat]);
-      for (let d = 0; d < 5; d++) {
-        const progress = (time * 0.40 + d / 5) % 1;
-        const pt = interp(progress);
-        if (!isPointVisible(pt[0], pt[1], rotation)) continue;
-        const p = projection(pt as [number, number]);
-        if (!p) continue;
-        const alpha = Math.sin(progress * Math.PI) * 0.9 + 0.1;
-        const r = 2.5 + Math.sin(progress * Math.PI) * 2;
-        // Outer glow
-        const grd = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], r * 3);
-        grd.addColorStop(0, `rgba(255,255,255,${alpha * 0.5})`);
-        grd.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.beginPath();
-        ctx.arc(p[0], p[1], r * 3, 0, 2 * Math.PI);
-        ctx.fillStyle = grd;
-        ctx.fill();
-        // Bright core
-        ctx.beginPath();
-        ctx.arc(p[0], p[1], r, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx.fill();
-      }
-    }
-
     // ── Render ───────────────────────────────────────────────────────────────
     function render() {
       ctx.clearRect(0, 0, size, size);
@@ -239,14 +178,6 @@ export default function RotatingEarth({
         }
         ctx.fillStyle = "rgba(255,255,255,0.55)";
         ctx.fill();
-      }
-
-      // Distribution arcs — Athena Control (Turkey) → each brand manufacturer
-      if (athenaPin) {
-        for (const pin of brandPins) {
-          drawArcLine(athenaPin.lng, athenaPin.lat, pin.lng, pin.lat);
-          drawArcDots(athenaPin.lng, athenaPin.lat, pin.lng, pin.lat);
-        }
       }
 
       // Brand pin glows (no shadowBlur — it forces expensive compositing)

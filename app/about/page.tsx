@@ -82,7 +82,7 @@ export default function AboutPage() {
             <div className="flex w-full items-center justify-between px-6 pt-8 pb-10 text-left md:col-span-6 md:pt-20 md:pr-6 md:pb-0 md:pl-10">
               <div className="w-full max-w-3xl space-y-6">
 
-                <h1 className="font-display font-medium text-4xl tracking-tighter md:text-6xl lg:text-9xl">
+                <h1 className="font-display text-4xl md:text-6xl lg:text-9xl leading-none">
                   WHO WE ARE
                 </h1>
 

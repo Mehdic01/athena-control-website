@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -11,6 +11,9 @@ import FeaturedSectionStats from "@/app/_components/FeaturedSectionStats";
 import IndustriesSection from "@/app/_components/IndustriesSection";
 import { LogoCloud } from "@/app/_components/logo-cloud-2";
 import FeatureShaderCards from "@/app/_components/feature-shader-cards";
+import ProductMarqueeSection from "@/app/_components/ProductMarqueeSection";
+import ZoomParallaxSection from "@/app/_components/ZoomParallaxSection";
+import { Button01 } from "@/components/ui/contact-button";
 
 
 
@@ -37,6 +40,17 @@ const athenaControlPin = {
 
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [earthSize, setEarthSize] = useState(680);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      setEarthSize(w < 640 ? 320 : w < 1024 ? 500 : 680);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const heroY       = useTransform(scrollYProgress, [0, 1],   [0, 60]);
@@ -70,9 +84,9 @@ export default function HomePage() {
 
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-20 pb-16"
+          className="relative mx-auto px-4 sm:px-6 lg:px-1 min-h-screen flex items-center pt-28 sm:pt-36 lg:pt-56 pb-16"
         >
-          <div className="grid lg:grid-cols-2 gap-8 xl:gap-16 items-center w-full">
+          <div className="grid px-4 sm:px-8 lg:pl-72 lg:pr-16 lg:grid-cols-2 items-center w-full gap-12 lg:gap-0">
 
             {/* Left: text content */}
             <div>
@@ -146,7 +160,7 @@ export default function HomePage() {
               transition={{ duration: 1.2, delay: 0.5 }}
               className="flex justify-center lg:justify-end overflow-hidden"
             >
-              <RotatingEarth size={600} brandPins={heroBrandPins} athenaPin={athenaControlPin} />
+              <RotatingEarth size={earthSize} brandPins={heroBrandPins} athenaPin={athenaControlPin} />
             </motion.div>
 
           </div>
@@ -202,12 +216,29 @@ export default function HomePage() {
         </div>
       </section>
 
+            {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* PRODUCT CATALOG MARQUEE                                             */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/*<FadeIn>
+        <ProductMarqueeSection />
+      </FadeIn>*/}
+
+
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* INDUSTRIES WE SERVE                                                 */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <FadeIn>
         <IndustriesSection />
       </FadeIn>
+
+      <ZoomParallaxSection />
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* CONTACT CTA                                                         */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      <section className="flex justify-center items-center pb-48 bg-white">
+        <Button01 />
+      </section>
 
     </div>
   );

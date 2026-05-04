@@ -139,7 +139,7 @@ export default function Footer() {
 
               {/* Products */}
               <AnimatedContainer delay={0.2}>
-                <h4 className="font-heading text-s tracking-[0.2em] text-white uppercase mb-4">
+                <h4 className="font-heading text-sm tracking-[0.2em] text-white uppercase mb-4">
                   Products
                 </h4>
                 <ul className="space-y-2.5">
@@ -170,7 +170,7 @@ export default function Footer() {
 
               {/* Company */}
               <AnimatedContainer delay={0.3}>
-                <h4 className="font-heading text-s tracking-[0.2em] text-white uppercase mb-4">
+                <h4 className="font-heading text-sm tracking-[0.2em] text-white uppercase mb-4">
                   Company
                 </h4>
                 <ul className="space-y-2.5">

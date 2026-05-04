@@ -53,21 +53,21 @@ export default function CategoryShowcase() {
         <TextMarque
           delay={300}
           baseVelocity={-2}
-          clasname="font-display font-bold leading-none text-[#1A1A1A]"
+          clasname="font-display leading-none text-[#1A1A1A]"
         >
           FOUR CATEGORIES ·
         </TextMarque>
         <TextMarque
           delay={300}
           baseVelocity={2}
-          clasname="font-display font-bold leading-none text-[#1A1A1A]"
+          clasname="font-display leading-none text-[#1A1A1A]"
         >
           THREE WORLD-CLASS MANUFACTURERS ·
         </TextMarque>
         <TextMarque
           delay={300}
           baseVelocity={-2}
-          clasname="font-display font-bold leading-none text-black/65"
+          clasname="font-display leading-none text-black/65"
         >
           ONE DISTRIBUTOR ·
         </TextMarque>

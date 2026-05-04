@@ -1,9 +1,19 @@
 import { MetadataRoute } from "next";
 import { getAllProducts } from "@/lib/data/products/utils";
+import type { Brand } from "@/lib/data/products/types";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://athena-control.com";
   const products = getAllProducts();
+
+  // /products/brand/[brand]
+  const brandSlugs = [...new Set(products.map((p) => p.brand))] as Brand[];
+  const brandPages = brandSlugs.map((brand) => ({
+    url: `${base}/products/brand/${brand}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
 
   // /products/[category]
   const categories = [...new Set(products.map((p) => p.category))];
@@ -26,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base,                lastModified: new Date(), changeFrequency: "monthly", priority: 1   },
     { url: `${base}/about`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/products`,  lastModified: new Date(), changeFrequency: "weekly",  priority: 0.9 },
+    ...brandPages,
     ...categoryPages,
     ...productPages,
     { url: `${base}/brands`,    lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
