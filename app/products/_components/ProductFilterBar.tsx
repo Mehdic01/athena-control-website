@@ -167,16 +167,17 @@ export function ProductFilterBar({
       {/* ═══════════════════════════════════════════════════════════
           LOGO HEADER — full-width, above both columns
       ═══════════════════════════════════════════════════════════ */}
-      <div className="relative z-10 flex items-center px-4 mt-6 pb-3 shrink-0 border-b border-white/10">
-        <div className="relative h-18 w-60">
+      <div className="relative z-10 flex flex-col px-7 pt-[26px] pb-5 shrink-0 border-b border-white/[0.08] gap-1.5">
+        <div className="relative h-[38px] w-44">
           <Image
             src="/images/logo/logo_without_bg.png"
             alt="Athena Control"
             fill
-            className="object-cover object-left"
+            className="object-contain object-left"
             style={{ filter: "brightness(0) invert(1)" }}
           />
         </div>
+        <span className="font-heading text-[10px] font-medium tracking-[0.32em] uppercase text-white/40">— Industrial Catalog · 2026</span>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
@@ -273,108 +274,84 @@ export function ProductFilterBar({
 
 
 
-        {/* ── Search — rounded dark pill matching reference ── */}
+        {/* ── Search ── */}
         {onQueryChange && (
-          <div className="px-3 pt-12 pb-8 border-white/20 shrink-0">
-            <div className="relative h-12 rounded-lg flex items-center bg-black border border-white/30=40 overflow-hidden">
-              <div className="w-8 h-full flex items-center justify-center shrink-0">
-                <Search className="w-4 h-4 text-white/30" />
-              </div>
+          <div className="mx-5 mt-[18px] mb-[14px] shrink-0">
+            <div className="flex items-center gap-2.5 h-11 px-3 border border-white/[0.16] bg-white/[0.03] focus-within:border-white/60 focus-within:bg-white/[0.06] transition-colors">
+              <Search className="w-3.5 h-3.5 text-white/40 shrink-0" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => onQueryChange(e.target.value)}
-                placeholder="Search products, brands, categories…"
-                className="flex-1 bg-transparent font-sans text-[13px] text-white/80 placeholder-white/30 outline-none leading-none"
+                placeholder="Search products, models, specs…"
+                className="flex-1 bg-transparent font-sans text-[13px] text-white/90 placeholder-white/40 outline-none leading-none"
               />
               {query && (
-                <button
-                  onClick={() => onQueryChange("")}
-                  aria-label="Clear search"
-                  className="w-8 h-full flex items-center justify-center shrink-0 text-white/25 hover:text-white/70 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
+                <button onClick={() => onQueryChange("")} aria-label="Clear search" className="w-[18px] h-[18px] flex items-center justify-center shrink-0 text-white/40 hover:text-white transition-colors">
+                  <X className="w-[11px] h-[11px]" />
                 </button>
               )}
             </div>
           </div>
         )}
 
-        {/* ── Section meta-label ── */}
-        <div className="flex items-center h-11 px-4 shrink-0">
-          <span className="font-heading text-[20px] uppercase tracking-[0.4em] text-white/25 leading-none">
-            Filter By
-          </span>
+        {/* ── Status row ── */}
+        <div className="grid grid-cols-[1fr_1fr_auto] items-end gap-0 mx-5 py-3 border-t border-white/[0.08] border-b border-white/[0.08] shrink-0">
+          <div className="flex flex-col gap-1.5">
+            <span className="font-heading text-[9px] font-medium tracking-[0.32em] uppercase text-white/40">Catalog</span>
+            <span className="font-mono text-[16px] font-medium text-white leading-none">
+              {String(Object.values(categoryCounts).reduce((a, b) => a + b, 0)).padStart(3, "0")}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span className="font-heading text-[9px] font-medium tracking-[0.32em] uppercase text-white/40">Active filters</span>
+            <span className="font-mono text-[16px] font-medium text-white leading-none">
+              {String(activeCount).padStart(2, "0")}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={clearFilters}
+            disabled={!hasActiveFilters}
+            className="font-heading text-[10px] font-medium tracking-[0.24em] uppercase text-white/60 hover:text-white disabled:text-white/[0.16] disabled:cursor-default transition-colors self-end pb-0.5"
+          >
+            Clear all
+          </button>
         </div>
 
         {/* ── Scrollable filter sections ── */}
-        <div className="flex-1 overflow-y-auto min-h-0 px-2 pb-4 space-y-0.5">
+        <div className="flex-1 overflow-y-auto min-h-0 py-1.5 px-3">
 
-          {/* Categories — all 13 */}
-          <FilterGroup
-            label="Categories"
-            isOpen={openSections.has("categories")}
-            onToggle={() => toggleSection("categories")}
-          >
+          <FilterGroup label="Categories" count={allCategoryOpts.length} active={!!filters.category} isOpen={openSections.has("categories")} onToggle={() => toggleSection("categories")}>
             {allCategoryOpts.map((opt) => (
-              <SubItem
-                key={opt.key}
-                label={opt.label}
-                isActive={filters.category === opt.key}
-                onClick={() => toggleFilter("category", opt.key)}
-                count={categoryCounts[opt.key]}
-              />
+              <SubItem key={opt.key} label={opt.label} isActive={filters.category === opt.key} onClick={() => toggleFilter("category", opt.key)} count={categoryCounts[opt.key]} />
             ))}
           </FilterGroup>
 
-          {/* Voltage */}
-          <FilterGroup
-            label="Voltage"
-            isOpen={openSections.has("voltage")}
-            onToggle={() => toggleSection("voltage")}
-          >
+          <FilterGroup label="Voltage" count={voltageOpts.length} active={!!filters.voltage} isOpen={openSections.has("voltage")} onToggle={() => toggleSection("voltage")}>
             {voltageOpts.map((opt) => (
-              <SubItem
-                key={opt.key}
-                label={opt.label}
-                isActive={filters.voltage === opt.key}
-                onClick={() => toggleFilter("voltage", opt.key)}
-              />
+              <SubItem key={opt.key} label={opt.label} isActive={filters.voltage === opt.key} onClick={() => toggleFilter("voltage", opt.key)} />
             ))}
           </FilterGroup>
 
-          {/* Application — no icons */}
-          <FilterGroup
-            label="Application"
-            isOpen={openSections.has("application")}
-            onToggle={() => toggleSection("application")}
-          >
+          <FilterGroup label="Application" count={FILTER_GROUPS.find((g) => g.key === "application")!.options.length} active={!!filters.application} isOpen={openSections.has("application")} onToggle={() => toggleSection("application")}>
             {FILTER_GROUPS.find((g) => g.key === "application")!.options.map((opt) => (
-              <SubItem
-                key={opt.key}
-                label={opt.label}
-                isActive={filters.application === opt.key}
-                onClick={() => toggleFilter("application", opt.key)}
-              />
+              <SubItem key={opt.key} label={opt.label} isActive={filters.application === opt.key} onClick={() => toggleFilter("application", opt.key)} />
             ))}
           </FilterGroup>
 
-          {/* Industry — no icons */}
-          <FilterGroup
-            label="Industry"
-            isOpen={openSections.has("industry")}
-            onToggle={() => toggleSection("industry")}
-          >
+          <FilterGroup label="Industry" count={FILTER_GROUPS.find((g) => g.key === "industry")!.options.length} active={!!filters.industry} isOpen={openSections.has("industry")} onToggle={() => toggleSection("industry")}>
             {FILTER_GROUPS.find((g) => g.key === "industry")!.options.map((opt) => (
-              <SubItem
-                key={opt.key}
-                label={opt.label}
-                isActive={filters.industry === opt.key}
-                onClick={() => toggleFilter("industry", opt.key)}
-              />
+              <SubItem key={opt.key} label={opt.label} isActive={filters.industry === opt.key} onClick={() => toggleFilter("industry", opt.key)} />
             ))}
           </FilterGroup>
 
+        </div>
+
+        {/* ── Sidebar footer ── */}
+        <div className="shrink-0 flex justify-between items-center px-5 py-3 border-t border-white/[0.08] font-mono text-[10px] text-white/40 tracking-[0.04em]">
+          <span>Athena Control · İzmir, TR</span>
+          <span>v 2026.1</span>
         </div>
       </div>
       </div>{/* end two-column row */}
@@ -384,39 +361,37 @@ export function ProductFilterBar({
 
 // ─── FilterGroup ───────────────────────────────────────────────────────────────
 function FilterGroup({
-  label, isOpen, onToggle, children,
+  label, isOpen, onToggle, children, count, active,
 }: {
   label: string;
   isOpen: boolean;
   onToggle: () => void;
   children: React.ReactNode;
+  count?: number;
+  active?: boolean;
 }) {
   return (
-    <div className="w-full">
-      <div
-        role="button"
+    <div className="border-b border-white/[0.08] last:border-b-0">
+      <button
+        type="button"
         onClick={onToggle}
-        className={`flex items-center w-full h-10 px-3 py-6 rounded-lg cursor-pointer select-none transition-colors duration-200 ${
-          isOpen ? "bg-white/[0.07]" : "hover:bg-white/[0.05]"
-        }`}
-        style={{ transitionTimingFunction: SPRING }}
+        className="flex items-center gap-2 w-full px-2 py-4 text-left hover:bg-white/[0.04] transition-colors duration-200 cursor-pointer select-none"
       >
-        <span className="flex-1 font-heading text-[24px] uppercase tracking-[0.15em] text-white leading-none">
+        <span className="flex-1 font-heading text-[13px] font-semibold tracking-[0.16em] uppercase text-white leading-none">
           {label}
         </span>
+        {active && (
+          <span className="font-mono text-[9px] font-semibold bg-white text-[#0A0A0A] px-[5px] py-[2px] leading-none">1</span>
+        )}
+        {count != null && (
+          <span className="font-mono text-[10px] text-white/40 mr-1">{count}</span>
+        )}
         <ChevronDown
-          className="w-4 h-4 text-white/25 shrink-0 transition-transform duration-300"
-          style={{
-            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transitionTimingFunction: SPRING,
-          }}
+          className={`w-3 h-3 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-white" : "text-white/40"}`}
         />
-      </div>
-
+      </button>
       {isOpen && (
-        <div className="flex flex-col gap-[1px] mb-1 mt-[1px]">
-          {children}
-        </div>
+        <div className="flex flex-col gap-[1px] pb-3.5">{children}</div>
       )}
     </div>
   );
@@ -432,30 +407,24 @@ function SubItem({
   count?: number;
 }) {
   return (
-    <div className="w-full pr-1 py-[1px]">
-      <button
-        onClick={onClick}
-        className={`group flex items-center w-full h-9 justify-start text-left rounded-lg px-3 transition-colors duration-150 ${
-          isActive ? "bg-white/[0.08]" : "hover:bg-white/[0.05]"
-        }`}
-        style={{ transitionTimingFunction: SPRING }}
-      >
-        {isActive && (
-          <div className="w-px h-4 bg-white/50 shrink-0 mr-2.5 -ml-1" />
-        )}
-        <span className={`flex-1 font-heading text-[12px] uppercase tracking-[0.08em] leading-none truncate transition-colors ${
-          isActive ? "text-white" : "text-white/40 group-hover:text-white/65"
-        }`}>
-          {label}
+    <button
+      type="button"
+      onClick={onClick}
+      className={`group flex items-center gap-3 h-8 px-4 w-full text-left transition-colors duration-150 ${
+        isActive ? "bg-white/[0.08]" : "hover:bg-white/[0.04]"
+      }`}
+    >
+      <span className={`w-px h-3 shrink-0 transition-colors duration-200 ${isActive ? "bg-white" : "bg-transparent"}`} />
+      <span className={`flex-1 font-sans text-[12.5px] transition-colors duration-200 ${
+        isActive ? "text-white font-medium" : "text-white/60 group-hover:text-white/85"
+      }`}>
+        {label}
+      </span>
+      {count !== undefined && (
+        <span className={`font-mono text-[10px] tabular-nums ${isActive ? "text-white/60" : "text-white/[0.16]"}`}>
+          {String(count).padStart(2, "0")}
         </span>
-        {count !== undefined && (
-          <span className={`font-sans text-[10px] tabular-nums shrink-0 ml-2 transition-colors ${
-            isActive ? "text-white/60" : "text-white/20"
-          }`}>
-            {count}
-          </span>
-        )}
-      </button>
-    </div>
+      )}
+    </button>
   );
 }
