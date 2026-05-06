@@ -177,7 +177,7 @@ export function ProductFilterBar({
             style={{ filter: "brightness(0) invert(1)" }}
           />
         </div>
-        <span className="font-heading text-[10px] font-medium tracking-[0.32em] uppercase text-white/40">— Industrial Catalog · 2026</span>
+        <span className="font-heading text-[10px] font-medium tracking-[0.32em] uppercase text-white/40">— PRODUCT Catalog</span>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
@@ -348,11 +348,7 @@ export function ProductFilterBar({
 
         </div>
 
-        {/* ── Sidebar footer ── */}
-        <div className="shrink-0 flex justify-between items-center px-5 py-3 border-t border-white/[0.08] font-mono text-[10px] text-white/40 tracking-[0.04em]">
-          <span>Athena Control · İzmir, TR</span>
-          <span>v 2026.1</span>
-        </div>
+
       </div>
       </div>{/* end two-column row */}
     </div>

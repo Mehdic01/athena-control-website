@@ -230,25 +230,11 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
             <div className="flex items-end justify-between gap-8">
               <div>
 
-                <h1 className="font-display text-[clamp(56px,7vw,112px)] leading-[0.88] text-[#0A0A0A] m-0">
+                <h1 className="font-display text-[clamp(56px,6vw,56px)] leading-[0.88] text-[#0A0A0A] m-0">
                   {displayTitle}
                 </h1>
               </div>
-              <div className="hidden sm:flex border-t border-[#D4D4D4] pt-3 shrink-0">
-                {[
-                  { k: "Items", v: String(displayCount).padStart(3, "0") },
-                  { k: "Brands", v: filters.brand ? "01" : "05" },
-                  { k: "Updated", v: "2026 · 05" },
-                ].map(({ k, v }, i, arr) => (
-                  <div
-                    key={k}
-                    className={`flex flex-col gap-1 px-6 min-w-[88px] ${i === 0 ? "pl-0" : ""} ${i < arr.length - 1 ? "border-r border-[#E6E6E6]" : "pr-0"}`}
-                  >
-                    <span className="font-heading text-[9px] font-medium tracking-[0.32em] uppercase text-[#6B6B6B]">{k}</span>
-                    <span className="font-mono text-[16px] font-medium text-[#0A0A0A]">{v}</span>
-                  </div>
-                ))}
-              </div>
+
             </div>
           </header>
 
