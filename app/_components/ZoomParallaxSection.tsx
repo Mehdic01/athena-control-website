@@ -12,12 +12,12 @@ import { ZoomParallax } from '@/components/ui/zoom-parallax';
 // [6] bottom-right small (scale 1→9)  → gearboxes
 const images = [
   { src: '/images/home/petrochemicals.jpg', alt: 'Petrochemical plant' },
-  { src: '/images/home/pumps.jpg',          alt: 'Pump systems' },
-  { src: '/images/home/fans.jpg',           alt: 'Industrial fans' },
-  { src: '/images/home/generators.jpg',     alt: 'Power generators' },
-  { src: '/images/home/compressors.jpg',    alt: 'Compressor systems' },
-  { src: '/images/home/gearboxes.jpg',      alt: 'Gearbox equipment' },
-  { src: '/images/home/turbines.jpg',       alt: 'Industrial turbines' },
+  { src: '/images/home/pumps.jpg', alt: 'Pump systems' },
+  { src: '/images/home/fans.jpg', alt: 'Industrial fans' },
+  { src: '/images/home/generators.jpg', alt: 'Power generators' },
+  { src: '/images/home/compressors.jpg', alt: 'Compressor systems' },
+  { src: '/images/home/gearboxes.jpg', alt: 'Gearbox equipment' },
+  { src: '/images/home/turbines.jpg', alt: 'Industrial turbines' },
 ];
 
 export default function ZoomParallaxSection() {
@@ -28,10 +28,10 @@ export default function ZoomParallaxSection() {
       <div className="relative flex h-[20vh] items-end justify-center pb-6 overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05),transparent_65%)]"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[80vmin]"
         />
         <div className="relative flex flex-col items-center gap-3 text-center px-4">
-          <h2 className="font-display font-extrabold text-[clamp(3.5rem,6vw,10rem)] leading-none text-[#1A1A1A]">
+          <h2 className="font-display  text-[clamp(4rem,8.5vw,10rem)] leading-none text-[#1A1A1A]">
             BUILT FOR INDUSTRY
           </h2>
         </div>
@@ -41,7 +41,7 @@ export default function ZoomParallaxSection() {
       <ZoomParallax images={images} />
 
       {/* ── Spacer matching demo ── */}
-      <div className="h-[20vh]" />
+      <div className="h-[2vh]" />
 
     </section>
   );

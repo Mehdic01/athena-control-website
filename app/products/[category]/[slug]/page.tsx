@@ -74,7 +74,7 @@ export default async function ProductDetailPage({
   return (
     <main>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section className="relative bg-white overflow-hidden py-8 lg:py-16">
+      <section className="relative bg-white overflow-hidden py-8 lg:py-22">
 
         {/* Right-half tinted surface */}
         <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block bg-[#F4F4F4]">
@@ -119,10 +119,10 @@ export default async function ProductDetailPage({
                   <Image
                     src={brandLogos[product.brand]}
                     alt={brandName}
-                    width={120}
-                    height={36}
-                    className="h-[16px] w-auto object-contain object-left"
-                    style={{ opacity: 0.4 }}
+                    width={130}
+                    height={80}
+                    className="h-[50px] w-auto object-contain object-left"
+                    
                   />
                 </div>
 
@@ -142,10 +142,10 @@ export default async function ProductDetailPage({
                         key={spec.label}
                         className="flex items-baseline justify-between py-3 border-b border-[#ECECEC]"
                       >
-                        <span className="font-heading text-[9.5px] tracking-[0.25em] text-[#6B6B6B] uppercase shrink-0 mr-6">
+                        <span className="font-heading text-[16px] tracking-[0.25em] text-[#6B6B6B] uppercase shrink-0 mr-6">
                           {spec.label}
                         </span>
-                        <span className="font-heading font-semibold text-[#0F1A12] text-[13px] text-right leading-snug">
+                        <span className="font-heading font-semibold text-[#0F1A12] text-[16px] text-right leading-snug">
                           {spec.value}
                         </span>
                       </div>
@@ -206,7 +206,7 @@ export default async function ProductDetailPage({
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-contain"
+                      className={product.brand === "motortronics" ? "object-contain" : "object-cover"}
                       style={{ filter: "drop-shadow(0 24px 40px rgba(0,0,0,0.13))" }}
                       sizes="(max-width: 1024px) 90vw, 45vw"
                       priority

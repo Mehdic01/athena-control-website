@@ -40,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categoryPages,
     ...productPages,
     { url: `${base}/brands`,    lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${base}/gallery`,   lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/events`,    lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/contact`,   lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
   ];
 }

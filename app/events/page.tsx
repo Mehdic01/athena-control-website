@@ -9,7 +9,7 @@ import {
   TextStaggerHover,
   HoverSliderImageWrap,
   HoverSliderImage,
-} from "@/app/gallery/_components/animated-slideshow";
+} from "@/app/events/_components/animated-slideshow";
 import FadeIn from "@/components/shared/FadeIn";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 
@@ -25,6 +25,11 @@ const SLIDES = [
     title: "WIN EURASIA 2025",
     imageUrl: "/images/gallery/win25_cover.jpg",
     anchorId: "win-eurasia-2025",
+  },
+  {
+    title: "ADIPEC 2025",
+    imageUrl: "/images/gallery/adipec25_cover.jpg",
+    anchorId: "adipec-2025",
   },
 ] as const;
 
@@ -52,6 +57,20 @@ const WIN25_PHOTOS = [
   "/images/gallery/win25/9.jpeg",
   "/images/gallery/win25/10.jpeg",
   "/images/gallery/win25/11.jpeg",
+];
+
+const ADIPEC25_PHOTOS = [
+  "/images/gallery/adipec25/1.jpeg",
+  "/images/gallery/adipec25/2.jpeg",
+  "/images/gallery/adipec25/3.jpeg",
+  "/images/gallery/adipec25/4.jpeg",
+  "/images/gallery/adipec25/5.jpeg",
+  "/images/gallery/adipec25/6.jpeg",
+  "/images/gallery/adipec25/7.jpeg",
+  "/images/gallery/adipec25/8.jpeg",
+  "/images/gallery/adipec25/9.jpeg",
+  "/images/gallery/adipec25/10.jpeg",
+  "/images/gallery/adipec25/11.jpeg",
 ];
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
@@ -153,7 +172,7 @@ export default function GalleryPage() {
   return (
     <main>
       {/* ── Slideshow ────────────────────────────────────────────────────── */}
-      <HoverSlider className="relative min-h-screen bg-[#1A1A1A] overflow-hidden flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-24">
+      <HoverSlider className="relative min-h-screen bg-[#1A1A1A] overflow-hidden flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24 pt-40 pb-24">
 
         {/* Background image */}
         <Image
@@ -285,6 +304,36 @@ export default function GalleryPage() {
             <GalleryGrid
               photos={WIN25_PHOTOS}
               onOpen={(i) => setLightbox({ photos: WIN25_PHOTOS, index: i })}
+            />
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── ADIPEC 2025 ──────────────────────────────────────────────────── */}
+      <section
+        id="adipec-2025"
+        className="py-20 bg-[#F4F4F4] scroll-mt-16"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+              <div>
+                <p className="font-heading text-[10px] tracking-[0.35em] text-[#6B6B6B] uppercase mb-3">
+                  Event Gallery · Abu Dhabi, UAE
+                </p>
+                <h2 className="font-display text-4xl sm:text-6xl text-[#0F1A12] leading-none">
+                  ADIPEC 2025
+                </h2>
+              </div>
+              <span className="font-heading text-[10px] tracking-[0.3em] text-[#6B6B6B]/50 uppercase shrink-0">
+                {ADIPEC25_PHOTOS.length}&nbsp;PHOTOS
+              </span>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.15}>
+            <GalleryGrid
+              photos={ADIPEC25_PHOTOS}
+              onOpen={(i) => setLightbox({ photos: ADIPEC25_PHOTOS, index: i })}
             />
           </FadeIn>
         </div>

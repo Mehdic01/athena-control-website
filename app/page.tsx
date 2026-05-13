@@ -13,7 +13,8 @@ import { LogoCloud } from "@/app/_components/logo-cloud-2";
 import FeatureShaderCards from "@/app/_components/feature-shader-cards";
 import ProductMarqueeSection from "@/app/_components/ProductMarqueeSection";
 import ZoomParallaxSection from "@/app/_components/ZoomParallaxSection";
-import { Button01 } from "@/components/ui/contact-button";
+import HomeContactSection from "@/app/_components/HomeContactSection";
+import ProductCatalogSection from "@/app/_components/ProductCatalogSection";
 
 
 
@@ -63,7 +64,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative min-h-screen bg-[#0F1A12] overflow-hidden"
+        className="relative min-h-screen bg-[#0F1A12]"
       >
         {/* Background photo */}
         <div className="absolute inset-0">
@@ -84,7 +85,7 @@ export default function HomePage() {
 
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative mx-auto px-4 sm:px-6 lg:px-1 min-h-screen flex items-center pt-28 sm:pt-36 lg:pt-56 pb-16"
+          className="relative mx-auto px-4 sm:px-6 lg:px-1 min-h-screen flex items-center pt-28 sm:pt-36 lg:pt-40 pb-16"
         >
           <div className="grid px-4 sm:px-8 lg:pl-72 lg:pr-16 lg:grid-cols-2 items-center w-full gap-12 lg:gap-0">
 
@@ -97,10 +98,8 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-8"
               >
-                <div className="h-px w-10 bg-white/40" />
-                <span className="font-heading text-xs tracking-[0.35em] text-white/55 uppercase">
-                  Official Turkish Distributor
-                </span>
+                
+
               </motion.div>
 
               {/* Headline */}
@@ -111,7 +110,7 @@ export default function HomePage() {
                       initial={{ opacity: 0, y: "100%" }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.7, delay: 0.3 + i * 0.12, ease: [0.22, 0.61, 0.36, 1] }}
-                      className="block font-display leading-[0.88] text-[clamp(3.5rem,7vw,7rem)] text-white"
+                      className="block font-display leading-[0.88] text-[clamp(4rem,8.5vw,8.5rem)] text-white"
                     >
                       {word}
                     </motion.span>
@@ -158,7 +157,7 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, delay: 0.5 }}
-              className="flex justify-center lg:justify-end overflow-hidden"
+              className="flex justify-center"
             >
               <RotatingEarth size={earthSize} brandPins={heroBrandPins} athenaPin={athenaControlPin} />
             </motion.div>
@@ -201,7 +200,7 @@ export default function HomePage() {
         <FeatureShaderCards />
       </FadeIn>
 
-
+      <ProductCatalogSection />
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* OUR PARTNERS                                                        */}
@@ -236,9 +235,10 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════════════════════ */}
       {/* CONTACT CTA                                                         */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="flex justify-center items-center pb-48 bg-white">
+      {/* <section className="flex justify-center items-center pb-48 bg-white">
         <Button01 />
-      </section>
+      </section> */}
+      <HomeContactSection />
 
     </div>
   );

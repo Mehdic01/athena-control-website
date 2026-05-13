@@ -29,7 +29,7 @@ export const navLinks: { label: string; href: string; hasDropdown?: boolean }[] 
   { label: "About",    href: "/about" },
   { label: "Products", href: "/products", hasDropdown: true },
   { label: "Brands",   href: "/brands" },
-  { label: "Gallery",  href: "/gallery" },
+  { label: "Events",   href: "/events" },
   { label: "Contact",  href: "/contact" },
 ];
 
@@ -247,6 +247,27 @@ export const productDropdown: { columns: MegaMenuColumn[] } = {
     },
   ],
 };
+
+export interface ProductCategoryLink {
+  label: string;
+  href: string;
+}
+
+export const productCategoryLinks: ProductCategoryLink[] = [
+  { label: "Soft Starters",              href: "/products/soft-starter" },
+  { label: "Vibration Sensors",           href: "/products/vibration-sensors" },
+  { label: "Condition Monitors",          href: "/products/condition-monitor" },
+  { label: "Frequency Inverters",         href: "/products/frequency-inverter" },
+  { label: "Ball Valves",                 href: "/products/ball-valve" },
+  { label: "Butterfly Valves",            href: "/products/butterfly-valve" },
+  { label: "Gate Valves",                 href: "/products/gate-valve" },
+  { label: "Globe Valves",               href: "/products/globe-valve" },
+  { label: "Check Valves",               href: "/products/check-valve" },
+  { label: "Plug Valves",                href: "/products/plug-valve" },
+  { label: "Pneumatic Actuators",         href: "/products/pneumatic-actuator" },
+  { label: "Electric Actuators",          href: "/products/electric-actuator" },
+  { label: "Complete Actuator Equipment", href: "/products/complete-actuator-equipment" },
+];
 
 export const footerProductLinks: NavItem[] = [
   { label: "Soft Starters",        href: "/products/soft-starter" },
