@@ -246,10 +246,11 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
           </div>
 
           {/* Lead paragraph — category names extrabold */}
-          <p className="max-w-[360px] text-[15px] leading-[1.6] text-[#6B6B6B] m-0 lg:mb-1.5">
+          <p className="max-w-[360px] text-[16px] leading-[1.6] text-[#6B6B6B] m-0 lg:mb-1.5">
             <strong className="font-extrabold text-[#1A1A1A]">Soft starters</strong>,{" "}
             <strong className="font-extrabold text-[#1A1A1A]">frequency inverters</strong>,{" "}
-            <strong className="font-extrabold text-[#1A1A1A]">vibration sensors</strong> and{" "}
+            <strong className="font-extrabold text-[#1A1A1A]">vibration monitoring systems</strong>,{" "}
+            <strong className="font-extrabold text-[#1A1A1A]">actuators</strong> and{" "}
             <strong className="font-extrabold text-[#1A1A1A]">industrial valves</strong> from
             our partner brands — engineered for manufacturing, oil &amp; gas, power, marine
             and water applications.
@@ -490,7 +491,7 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
               CAN&apos;T FIND THE EXACT SPEC?
             </h2>
             <p className="text-[15px] leading-[1.55] text-white/60 max-w-[540px] m-0">
-              Our application engineers in İzmir size and configure soft starters, drives,
+              Our application engineers size and configure soft starters, drives,
               vibration sensors and valves for your duty cycle. Send a datasheet or process
               conditions and we&apos;ll respond inside one business day.
             </p>

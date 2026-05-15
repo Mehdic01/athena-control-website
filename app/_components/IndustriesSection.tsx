@@ -11,26 +11,22 @@ import { getAllProducts, categoryNames } from "@/lib/data/products/utils";
 // Used to filter products whose applications[] contain any of these keywords
 const INDUSTRY_KEYWORDS: Record<string, string[]> = {
   "Chemical Plants":            ["Chemical", "Industrial Process"],
-  "Food & Beverage":            ["Food & Beverage"],
   "Manufacturing & Processing": ["Manufacturing & Processing", "Machine Tool", "Automated Production", "Packing", "Printing", "Injection Molding"],
   "Marine":                     ["Marine"],
   "Mining & Quarrying":         ["Mining & Quarrying", "Coal Mine", "Ball Mill"],
   "Oil & Gas":                  ["Oil & Gas", "Oil Field"],
-  "Paper & Wood":               ["Paper & Wood", "Woodworking"],
   "Water & Pumping":            ["Water & Pumping", "wastewater"],
   "HVAC":                       ["HVAC"],
 };
 
 const INDUSTRIES_RAW = [
-  { id: "01", title: "Oil & Gas",                  image: "/images/industries/Oil_Gas.jpg" },
-  { id: "02", title: "Chemical Plants",            image: "/images/industries/chemical_plants.jpg" },
-  { id: "03", title: "Food & Beverage",            image: "/images/industries/food_and_beverage.jpg" },
-  { id: "04", title: "Manufacturing & Processing", image: "/images/industries/manufacturing_and_processing.jpg" },
-  { id: "05", title: "Marine",                     image: "/images/industries/marine.jpg" },
-  { id: "06", title: "Mining & Quarrying",         image: "/images/industries/Mining_Quarrying.jpg" },
-  { id: "07", title: "Paper & Wood",               image: "/images/industries/Paper_Wood.jpg" },
-  { id: "08", title: "Water & Pumping",            image: "/images/industries/Water_Pumping.jpg" },
-  { id: "09", title: "HVAC",                       image: "/images/industries/HVAC.jpg" },
+  { id: "01", title: "Oil & Gas",                  image: "/images/industries/oil-and-gas.jpg" },
+  { id: "02", title: "Chemical Plants",            image: "/images/industries/chemical-plants.jpg" },
+  { id: "03", title: "Manufacturing & Processing", image: "/images/industries/manufacturing-and-processing.jpg" },
+  { id: "04", title: "Marine",                     image: "/images/industries/marine.jpg" },
+  { id: "05", title: "Mining & Quarrying",         image: "/images/industries/mining-quarrying.jpg" },
+  { id: "06", title: "Water & Pumping",            image: "/images/industries/water-and-pumping.jpg" },
+  { id: "07", title: "HVAC",                       image: "/images/industries/hvac.jpg" },
 ];
 
 // Build descriptions at module level (computed once from imported product data)

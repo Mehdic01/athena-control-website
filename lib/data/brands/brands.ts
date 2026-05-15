@@ -10,7 +10,7 @@ export interface Brand {
   /** Path relative to /public. Empty string = no logo file yet (render name as text). */
   logo: string;
   description: string;
-  
+  highlights: string[];
   icon: ElementType;
   /**
    * Up to 3 product image paths (relative to /public) used in the brand showcase
@@ -32,7 +32,7 @@ export const brands: Brand[] = [
     logo: "/images/brands/motortronics-logo.png",
     description:
       "The global leader in soft starter technology for AC induction motors, with decades of innovation in motor control and protection. Motortronics delivers cutting-edge VMX series soft starters for every industrial application.",
-
+    highlights: ["Soft Starters", "Motor Control", "18 A – 13.8 kV"],
     icon: Zap,
     showcaseImages: [
       "/images/products/softstarters/vmx-synergy-plus/vmx-synergy-plus.png",
@@ -50,7 +50,7 @@ export const brands: Brand[] = [
     logo: "/images/brands/shinkawa-logo.png",
     description:
       "Pioneer in vibration monitoring systems for motors, pumps, compressors, and turbines. SHINKAWA's precision instrumentation prevents catastrophic equipment failure through real-time condition monitoring.",
-
+    highlights: ["Vibration Sensors", "Condition Monitoring", "Predictive Maintenance"],
     icon: Activity,
     showcaseImages: [
       "/images/products/vibration_monitoring_systems/ca_cv_series.jpg",
@@ -73,7 +73,7 @@ export const brands: Brand[] = [
     logo: "/images/brands/renle-logo.png",
     description:
       "Shanghai RENLE Science and Technology delivers advanced power electronics solutions including variable frequency drives, soft starters, and static var generators trusted by industrial operators worldwide.",
-
+    highlights: ["Frequency Inverters", "Variable Speed Drives", "LV & HV"],
     icon: Cpu,
     showcaseImages: [
       "/images/products/frequency_inverter/rnb2000.png",
@@ -92,7 +92,7 @@ export const brands: Brand[] = [
     logo: "/images/brands/athena-group-logo.png",
     description:
       "A global fluid control leader providing high-performance industrial valves trusted across critical infrastructure worldwide. Athena Valve's product range spans ball, butterfly, gate, globe, check, and plug valves for oil & gas, petrochemical, power, and water treatment industries.",
-
+    highlights: ["Industrial Valves", "Flow Control", "6 Valve Categories"],
     icon: Droplets,
     showcaseImages: [],
   },
