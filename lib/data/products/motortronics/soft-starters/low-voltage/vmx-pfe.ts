@@ -1,4 +1,4 @@
-import type { Product } from "../../../types";
+﻿import type { Product } from "../../../types";
 
 
 export const vmxPfe: Product = {
@@ -83,7 +83,7 @@ export const vmxPfe: Product = {
     },
   ],
 
-  image: "/images/products/softstarters/vmx-pfe.png",
+  image: "/images/products/soft-starters/vmx-pfe.png",
 
   gallery: [],
 

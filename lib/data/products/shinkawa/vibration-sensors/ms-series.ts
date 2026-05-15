@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const msSeries: Product = {
   slug: "ms-series",
@@ -20,7 +20,7 @@ export const msSeries: Product = {
     {
       title: "Excellent durability and environmental resistance",
       description:
-        "Robust construction withstands harsh industrial environments with an operating temperature range of −10 to +120°C.",
+        "Robust construction withstands harsh industrial environments with an operating temperature range of âˆ’10 to +120Â°C.",
     },
     {
       title: "High output voltage",
@@ -30,12 +30,12 @@ export const msSeries: Product = {
     {
       title: "Vibration proof",
       description:
-        "Withstands vibration levels up to 196 m/s² (20G), suitable for installation on rotating machinery.",
+        "Withstands vibration levels up to 196 m/sÂ² (20G), suitable for installation on rotating machinery.",
     },
     {
       title: "Simple and reliable structure",
       description:
-        "Passive magnetic design with no electronics — no power supply required, ensuring long-term reliability.",
+        "Passive magnetic design with no electronics â€” no power supply required, ensuring long-term reliability.",
     },
   ],
 
@@ -51,22 +51,22 @@ export const msSeries: Product = {
   quickSpecs: [
     { label: "Sensor Type", value: "Magnetic pickup (passive)" },
     { label: "Output Signal", value: "Frequency proportional to speed" },
-    { label: "Operating Temperature", value: "−10 to +120°C" },
-    { label: "Vibration Resistance", value: "196 m/s² (20G)" },
-    { label: "Thread Sizes", value: "M16 × 1 / M24 × 1.5" },
+    { label: "Operating Temperature", value: "âˆ’10 to +120Â°C" },
+    { label: "Vibration Resistance", value: "196 m/sÂ² (20G)" },
+    { label: "Thread Sizes", value: "M16 Ã— 1 / M24 Ã— 1.5" },
   ],
 
   specGroups: [
     {
       title: "MS-1601 / MS-1602 (M16)",
       specs: [
-        { label: "DC Resistance", value: "95 to 115 Ω at 25°C" },
+        { label: "DC Resistance", value: "95 to 115 Î© at 25Â°C" },
         { label: "Inductance", value: "35 mH typical" },
         {
           label: "Observed Gear Type",
           value: "Involute gear module 1 to 4 (D.P. 6 to 25)",
         },
-        { label: "Threaded Size", value: "M16 × 1" },
+        { label: "Threaded Size", value: "M16 Ã— 1" },
         {
           label: "Cable (MS-1601)",
           value: "Integral cable, 2 m fluoro resin 2-wire twisted pair shielded",
@@ -82,13 +82,13 @@ export const msSeries: Product = {
     {
       title: "MS-2401 / MS-2402 (M24)",
       specs: [
-        { label: "DC Resistance", value: "220 to 260 Ω at 25°C" },
+        { label: "DC Resistance", value: "220 to 260 Î© at 25Â°C" },
         { label: "Inductance", value: "115 mH typical" },
         {
           label: "Observed Gear Type",
           value: "Involute gear module 3 to 10 (D.P. 2.5 to 8.5)",
         },
-        { label: "Threaded Size", value: "M24 × 1.5" },
+        { label: "Threaded Size", value: "M24 Ã— 1.5" },
         {
           label: "Cable (MS-2401)",
           value: "Integral cable, 2 m fluoro resin 2-wire twisted pair shielded",
@@ -106,14 +106,14 @@ export const msSeries: Product = {
       specs: [
         {
           label: "Operating Temperature",
-          value: "−10 to +120°C (14 to 248°F)",
+          value: "âˆ’10 to +120Â°C (14 to 248Â°F)",
         },
-        { label: "Vibration Resistance", value: "196 m/s² (20G)" },
+        { label: "Vibration Resistance", value: "196 m/sÂ² (20G)" },
       ],
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/ms_series.png",
+  image: "/images/products/vibration-monitoring-systems/ms_series.png",
   gallery: [],
 
   documents: [

@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const zarkSeries: Product = {
   slug: "zark-series",
@@ -22,7 +22,7 @@ export const zarkSeries: Product = {
     {
       title: "Wireless and battery-powered",
       description:
-        "ZARK Nano sensors require no wiring — battery life up to 3 years with replaceable 1/2AA lithium battery.",
+        "ZARK Nano sensors require no wiring â€” battery life up to 3 years with replaceable 1/2AA lithium battery.",
     },
     {
       title: "Cloud or on-premise flexibility",
@@ -32,17 +32,17 @@ export const zarkSeries: Product = {
     {
       title: "3-axis MEMS vibration sensor",
       description:
-        "Built-in 3-axis MEMS accelerometer with measurement range up to 156.8 m/s² peak and frequency range 5 to 2,000 Hz.",
+        "Built-in 3-axis MEMS accelerometer with measurement range up to 156.8 m/sÂ² peak and frequency range 5 to 2,000 Hz.",
     },
     {
       title: "Temperature monitoring included",
       description:
-        "Integrated temperature measurement from −20 to 85°C alongside vibration data.",
+        "Integrated temperature measurement from âˆ’20 to 85Â°C alongside vibration data.",
     },
     {
       title: "Smartphone patrol inspection",
       description:
-        "Collect data from ZARK Nano sensors using a smartphone app during routine patrols — no on-site Wi-Fi required.",
+        "Collect data from ZARK Nano sensors using a smartphone app during routine patrols â€” no on-site Wi-Fi required.",
     },
     {
       title: "Scalable system",
@@ -63,29 +63,29 @@ export const zarkSeries: Product = {
   quickSpecs: [
     { label: "Sensor Type", value: "3-axis MEMS accelerometer (wireless)" },
     { label: "Communication", value: "Bluetooth Low Energy 5.0" },
-    { label: "Measurement Range", value: "156.8 m/s² peak" },
+    { label: "Measurement Range", value: "156.8 m/sÂ² peak" },
     { label: "Frequency Range", value: "5 to 2,000 Hz" },
     { label: "Battery Life", value: "Up to 3 years" },
   ],
 
   specGroups: [
     {
-      title: "ZARK Nano (ZN-4A) — Vibration Measurement",
+      title: "ZARK Nano (ZN-4A) â€” Vibration Measurement",
       specs: [
         { label: "Sensor Type", value: "3-axis MEMS" },
         { label: "Measuring Axis", value: "1 axis (vertical) or 3 axis" },
-        { label: "Measurement Range", value: "156.8 m/s² (16g) peak" },
-        { label: "Frequency Range", value: "5 to 2,000 Hz (−3 dB)" },
+        { label: "Measurement Range", value: "156.8 m/sÂ² (16g) peak" },
+        { label: "Frequency Range", value: "5 to 2,000 Hz (âˆ’3 dB)" },
         { label: "Sampling Frequency", value: "6,400 Hz" },
         { label: "Spectrum Lines", value: "800 / 1,600 / 3,200" },
       ],
     },
     {
-      title: "ZARK Nano (ZN-4A) — Temperature Measurement",
-      specs: [{ label: "Range", value: "−20 to 85°C (±3°C)" }],
+      title: "ZARK Nano (ZN-4A) â€” Temperature Measurement",
+      specs: [{ label: "Range", value: "âˆ’20 to 85Â°C (Â±3Â°C)" }],
     },
     {
-      title: "ZARK Nano (ZN-4A) — Data Collection",
+      title: "ZARK Nano (ZN-4A) â€” Data Collection",
       specs: [
         {
           label: "Collection Interval",
@@ -99,7 +99,7 @@ export const zarkSeries: Product = {
       ],
     },
     {
-      title: "ZARK Nano (ZN-4A) — Communication & Power",
+      title: "ZARK Nano (ZN-4A) â€” Communication & Power",
       specs: [
         {
           label: "Radio System",
@@ -120,9 +120,9 @@ export const zarkSeries: Product = {
       ],
     },
     {
-      title: "ZARK Nano (ZN-4A) — Physical",
+      title: "ZARK Nano (ZN-4A) â€” Physical",
       specs: [
-        { label: "Dimensions", value: "28 × 50 mm (H)" },
+        { label: "Dimensions", value: "28 Ã— 50 mm (H)" },
         { label: "Mass", value: "Approx. 75 g (including battery)" },
         { label: "Mounting", value: "UNF 1/4-28 (M6 adapter included)" },
         {
@@ -130,7 +130,7 @@ export const zarkSeries: Product = {
           value: "Plastic cover, stainless steel base",
         },
         { label: "Protection Rating", value: "IP66" },
-        { label: "Operating Temperature", value: "−20 to 85°C" },
+        { label: "Operating Temperature", value: "âˆ’20 to 85Â°C" },
         { label: "Humidity", value: "0 to 100% RH (non-condensing)" },
       ],
     },
@@ -149,17 +149,17 @@ export const zarkSeries: Product = {
         { label: "Power Supply", value: "100 to 240 VAC, 50/60 Hz" },
         {
           label: "Dimensions",
-          value: "190 × 280 × 130 mm (excl. protrusions)",
+          value: "190 Ã— 280 Ã— 130 mm (excl. protrusions)",
         },
         { label: "Mass", value: "Approx. 1.6 kg" },
         { label: "Enclosure Material", value: "Plastic" },
-        { label: "Operating Temperature", value: "−20 to 60°C" },
+        { label: "Operating Temperature", value: "âˆ’20 to 60Â°C" },
         { label: "Humidity", value: "5 to 95% RH (non-condensing)" },
       ],
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/zark_series.png",
+  image: "/images/products/vibration-monitoring-systems/zark_series.png",
   gallery: [],
 
   documents: [

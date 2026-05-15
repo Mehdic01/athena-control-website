@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const fkSeries: Product = {
   slug: "fk-series",
@@ -61,8 +61,8 @@ export const fkSeries: Product = {
     },
     { label: "Sensitivity", value: "7.87 V/mm" },
     { label: "Linear Range", value: "2 mm" },
-    { label: "Frequency Response", value: "DC to 10 kHz (−3 dB)" },
-    { label: "Power Supply", value: "−24 VDC ±10%" },
+    { label: "Frequency Response", value: "DC to 10 kHz (âˆ’3 dB)" },
+    { label: "Power Supply", value: "âˆ’24 VDC Â±10%" },
   ],
 
   specGroups: [
@@ -78,67 +78,67 @@ export const fkSeries: Product = {
           value: "0.25 to 2.25 mm from sensor tip",
         },
         { label: "Sensitivity", value: "7.87 V/mm" },
-        { label: "Sensitivity Error", value: "Within ±4%" },
+        { label: "Sensitivity Error", value: "Within Â±4%" },
         {
           label: "Scale Factor Error (5m system)",
-          value: "Within ±5% of 7.87 V/mm",
+          value: "Within Â±5% of 7.87 V/mm",
         },
         {
           label: "Scale Factor Error (9m system)",
-          value: "Within ±6.5% of 7.87 V/mm",
+          value: "Within Â±6.5% of 7.87 V/mm",
         },
         {
           label: "Linearity (5m system)",
-          value: "Within ±25 μm of 7.87 V/mm straight line",
+          value: "Within Â±25 Î¼m of 7.87 V/mm straight line",
         },
         {
           label: "Linearity (9m system)",
-          value: "Within ±38 μm of 7.87 V/mm straight line",
+          value: "Within Â±38 Î¼m of 7.87 V/mm straight line",
         },
-        { label: "Frequency Response", value: "DC to 10 kHz (−3 dB)" },
+        { label: "Frequency Response", value: "DC to 10 kHz (âˆ’3 dB)" },
       ],
     },
     {
       title: "Electrical",
       specs: [
-        { label: "Power Supply", value: "−24 VDC ±10%" },
-        { label: "Current Consumption", value: "Max −15 mA (10 kΩ load)" },
-        { label: "Max Output Voltage", value: "Approx. −23 VDC" },
-        { label: "Output Impedance", value: "50 Ω" },
+        { label: "Power Supply", value: "âˆ’24 VDC Â±10%" },
+        { label: "Current Consumption", value: "Max âˆ’15 mA (10 kÎ© load)" },
+        { label: "Max Output Voltage", value: "Approx. âˆ’23 VDC" },
+        { label: "Output Impedance", value: "50 Î©" },
         {
           label: "Output Noise",
           value: "Approx. 15 mV pk-pk + power supply noise",
         },
         {
           label: "Sensor Abnormal Output",
-          value: "Approx. −0.6 VDC (sensor open/short)",
+          value: "Approx. âˆ’0.6 VDC (sensor open/short)",
         },
       ],
     },
     {
       title: "Environmental",
       specs: [
-        { label: "Sensor Operating Temp", value: "−40 to +177°C" },
-        { label: "Extension Cable Temp", value: "−40 to +177°C" },
-        { label: "Driver Operating Temp", value: "−40 to +80°C" },
+        { label: "Sensor Operating Temp", value: "âˆ’40 to +177Â°C" },
+        { label: "Extension Cable Temp", value: "âˆ’40 to +177Â°C" },
+        { label: "Driver Operating Temp", value: "âˆ’40 to +80Â°C" },
         {
           label: "Operating Humidity",
           value:
             "30 to 95% RH (non-condensing), sensor body: 100% RH",
         },
-        { label: "Marine Application Temp", value: "−25 to +70°C" },
+        { label: "Marine Application Temp", value: "âˆ’25 to +70Â°C" },
       ],
     },
     {
       title: "Temperature Characteristics",
       specs: [
-        { label: "Sensor", value: "Less than ±3% of F.S. (0 to 80°C)" },
+        { label: "Sensor", value: "Less than Â±3% of F.S. (0 to 80Â°C)" },
         {
           label: "Extension Cable",
-          value: "Less than ±4% of F.S. (0 to 80°C)",
+          value: "Less than Â±4% of F.S. (0 to 80Â°C)",
         },
-        { label: "Driver", value: "Less than ±3% of F.S. (0 to 60°C)" },
-        { label: "Loop (Total)", value: "Less than ±6% of F.S. (0 to 60°C)" },
+        { label: "Driver", value: "Less than Â±3% of F.S. (0 to 60Â°C)" },
+        { label: "Loop (Total)", value: "Less than Â±6% of F.S. (0 to 60Â°C)" },
       ],
     },
     {
@@ -170,7 +170,7 @@ export const fkSeries: Product = {
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/FK_series.png",
+  image: "/images/products/vibration-monitoring-systems/FK_series.png",
   gallery: [],
 
   documents: [

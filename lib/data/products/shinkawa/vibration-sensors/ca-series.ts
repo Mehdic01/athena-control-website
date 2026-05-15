@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const caSeries: Product = {
   slug: "ca-series",
@@ -63,9 +63,9 @@ export const caSeries: Product = {
 
   quickSpecs: [
     { label: "Sensor Type", value: "Piezoelectric acceleration (IEPE)" },
-    { label: "Sensitivity", value: "100 mV/9.8 m/s²" },
-    { label: "Frequency Response", value: "1 Hz to 10,000 Hz (±3 dB)" },
-    { label: "Measurement Range", value: "490 m/s² pk" },
+    { label: "Sensitivity", value: "100 mV/9.8 m/sÂ²" },
+    { label: "Frequency Response", value: "1 Hz to 10,000 Hz (Â±3 dB)" },
+    { label: "Measurement Range", value: "490 m/sÂ² pk" },
     { label: "Protection Rating", value: "IP67" },
   ],
 
@@ -75,19 +75,19 @@ export const caSeries: Product = {
       specs: [
         {
           label: "Sensitivity",
-          value: "100 mV/9.8 m/s² (100 mV/g) ±5% at 100 Hz, 25°C",
+          value: "100 mV/9.8 m/sÂ² (100 mV/g) Â±5% at 100 Hz, 25Â°C",
         },
-        { label: "Acceleration Range", value: "490 m/s² (50g) pk" },
-        { label: "Vibration Limit", value: "4,900 m/s² (500g) pk" },
-        { label: "Shock Limit", value: "49,000 m/s² (5,000g) pk" },
+        { label: "Acceleration Range", value: "490 m/sÂ² (50g) pk" },
+        { label: "Vibration Limit", value: "4,900 m/sÂ² (500g) pk" },
+        { label: "Shock Limit", value: "49,000 m/sÂ² (5,000g) pk" },
         { label: "Amplitude Nonlinearity", value: "1.0%" },
         { label: "Natural Frequency", value: "26 kHz" },
         {
           label: "Frequency Response",
-          value: "3–5,000 Hz ±5%, 2–7,000 Hz ±10%, 1–15,000 Hz ±3 dB",
+          value: "3â€“5,000 Hz Â±5%, 2â€“7,000 Hz Â±10%, 1â€“15,000 Hz Â±3 dB",
         },
         { label: "Transverse Sensitivity", value: "Max 5%" },
-        { label: "Output Impedance", value: "100 Ω typical" },
+        { label: "Output Impedance", value: "100 Î© typical" },
         { label: "Weight (CA-721)", value: "Approx. 120 g" },
         { label: "Weight (CA-722)", value: "Approx. 230 g (including cable)" },
       ],
@@ -97,19 +97,19 @@ export const caSeries: Product = {
       specs: [
         {
           label: "Sensitivity",
-          value: "100 mV/9.8 m/s² (100 mV/g) ±5% at 100 Hz, 25°C",
+          value: "100 mV/9.8 m/sÂ² (100 mV/g) Â±5% at 100 Hz, 25Â°C",
         },
-        { label: "Acceleration Range", value: "490 m/s² (50g) pk" },
-        { label: "Vibration Limit", value: "4,900 m/s² (500g) pk" },
-        { label: "Shock Limit", value: "9,800 m/s² (1,000g) pk" },
+        { label: "Acceleration Range", value: "490 m/sÂ² (50g) pk" },
+        { label: "Vibration Limit", value: "4,900 m/sÂ² (500g) pk" },
+        { label: "Shock Limit", value: "9,800 m/sÂ² (1,000g) pk" },
         { label: "Max Shock Energy", value: "4 J (intrinsically safe)" },
         { label: "Natural Frequency", value: "30 kHz" },
         {
           label: "Frequency Response",
-          value: "2–5,000 Hz ±10%, 1–10,000 Hz ±3 dB",
+          value: "2â€“5,000 Hz Â±10%, 1â€“10,000 Hz Â±3 dB",
         },
         { label: "Transverse Sensitivity", value: "Max 5%" },
-        { label: "Output Impedance", value: "100 Ω typical" },
+        { label: "Output Impedance", value: "100 Î© typical" },
         { label: "Weight", value: "Approx. 90 g" },
       ],
     },
@@ -118,14 +118,14 @@ export const caSeries: Product = {
       specs: [
         {
           label: "Sensitivity",
-          value: "100 mV/9.8 m/s² (100 mV/g) ±15% at 80 Hz, 25°C",
+          value: "100 mV/9.8 m/sÂ² (100 mV/g) Â±15% at 80 Hz, 25Â°C",
         },
-        { label: "Acceleration Range", value: "392 m/s² (40g) pk" },
-        { label: "Shock Limit", value: "9,800 m/s² (1,000g) pk" },
+        { label: "Acceleration Range", value: "392 m/sÂ² (40g) pk" },
+        { label: "Shock Limit", value: "9,800 m/sÂ² (1,000g) pk" },
         { label: "Natural Frequency", value: "18 kHz typ." },
-        { label: "Frequency Response", value: "10–3,000 Hz ±3 dB" },
+        { label: "Frequency Response", value: "10â€“3,000 Hz Â±3 dB" },
         { label: "Transverse Sensitivity", value: "Max 10%" },
-        { label: "Output Impedance", value: "Less than 200 Ω" },
+        { label: "Output Impedance", value: "Less than 200 Î©" },
         { label: "Weight", value: "Approx. 120 g" },
       ],
     },
@@ -135,9 +135,9 @@ export const caSeries: Product = {
         {
           label: "Power Supply (CA-72/302)",
           value:
-            "18–30 VDC (CA-72), 20–30 VDC (CA-302), 2–10 mA constant current",
+            "18â€“30 VDC (CA-72), 20â€“30 VDC (CA-302), 2â€“10 mA constant current",
         },
-        { label: "Power Supply (CA-101)", value: "20–30 VDC, 2–8 mA" },
+        { label: "Power Supply (CA-101)", value: "20â€“30 VDC, 2â€“8 mA" },
         { label: "Grounding", value: "Case isolated, internally shielded" },
       ],
     },
@@ -146,11 +146,11 @@ export const caSeries: Product = {
       specs: [
         {
           label: "Operating Temperature (CA-72/302)",
-          value: "−50 to +120°C",
+          value: "âˆ’50 to +120Â°C",
         },
         {
           label: "Operating Temperature (CA-101)",
-          value: "−20 to +80°C",
+          value: "âˆ’20 to +80Â°C",
         },
         { label: "Relative Humidity", value: "100% RH" },
         { label: "Protection Rating", value: "IP67" },
@@ -183,7 +183,7 @@ export const caSeries: Product = {
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/ca_cv_series.png",
+  image: "/images/products/vibration-monitoring-systems/ca_cv_series.png",
   gallery: [],
 
   documents: [

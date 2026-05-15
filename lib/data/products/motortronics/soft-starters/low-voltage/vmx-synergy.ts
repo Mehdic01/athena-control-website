@@ -1,4 +1,4 @@
-import type { Product } from "../../../types";
+﻿import type { Product } from "../../../types";
 
 
 export const vmxSynergy: Product = {
@@ -198,7 +198,7 @@ export const vmxSynergy: Product = {
     },
   ],
 
-  image: "/images/products/softstarters/vmx-synergy.png",
+  image: "/images/products/soft-starters/vmx-synergy.png",
 
   gallery: [],
 

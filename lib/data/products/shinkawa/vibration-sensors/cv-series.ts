@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const cvSeries: Product = {
   slug: "cv-series",
@@ -61,7 +61,7 @@ export const cvSeries: Product = {
   quickSpecs: [
     { label: "Sensor Type", value: "Piezoelectric velocity (IEPE)" },
     { label: "Sensitivity", value: "3.94 mV/mm/s" },
-    { label: "Frequency Response", value: "2 Hz to 7,000 Hz (±3 dB)" },
+    { label: "Frequency Response", value: "2 Hz to 7,000 Hz (Â±3 dB)" },
     { label: "Max Velocity", value: "1,270 mm/s pk" },
     { label: "Protection Rating", value: "IP67" },
   ],
@@ -72,21 +72,21 @@ export const cvSeries: Product = {
       specs: [
         {
           label: "Sensitivity",
-          value: "3.94 mV/mm/s (100 mV/in/s) ±5% at 100 Hz, 25°C",
+          value: "3.94 mV/mm/s (100 mV/in/s) Â±5% at 100 Hz, 25Â°C",
         },
         { label: "Max Velocity", value: "1,270 mm/s (50 in/s) pk" },
-        { label: "Vibration Limit", value: "2,450 m/s² (250g) pk" },
+        { label: "Vibration Limit", value: "2,450 m/sÂ² (250g) pk" },
         {
           label: "Shock Limit",
-          value: "24,500 m/s² (2,500g) pk / 23,520 m/s² intrinsically safe",
+          value: "24,500 m/sÂ² (2,500g) pk / 23,520 m/sÂ² intrinsically safe",
         },
         { label: "Natural Frequency", value: "15 kHz" },
         {
           label: "Frequency Response",
-          value: "2.5–3,500 Hz ±10%, 2–7,000 Hz ±3 dB",
+          value: "2.5â€“3,500 Hz Â±10%, 2â€“7,000 Hz Â±3 dB",
         },
         { label: "Transverse Sensitivity", value: "Max 5%" },
-        { label: "Output Impedance", value: "200 Ω typical" },
+        { label: "Output Impedance", value: "200 Î© typical" },
       ],
     },
     {
@@ -95,20 +95,20 @@ export const cvSeries: Product = {
         {
           label: "Output",
           value:
-            "4–20 mA, full scale selectable (12.7 / 25.4 / 50.8 mm/s RMS)",
+            "4â€“20 mA, full scale selectable (12.7 / 25.4 / 50.8 mm/s RMS)",
         },
         {
           label: "Frequency Response",
-          value: "10–1,000 Hz ±10%, 3.5–2,000 Hz ±3 dB",
+          value: "10â€“1,000 Hz Â±10%, 3.5â€“2,000 Hz Â±3 dB",
         },
         {
           label: "Power Requirement",
           value: "12 to 30 VDC (two-wire loop)",
         },
-        { label: "Max Loop Resistance", value: "700 Ω at 24 VDC" },
+        { label: "Max Loop Resistance", value: "700 Î© at 24 VDC" },
         { label: "Turn-On Time", value: "30 seconds" },
-        { label: "Vibration Limit", value: "2,450 m/s² (250g) pk" },
-        { label: "Shock Limit", value: "24,500 m/s² (2,500g) pk" },
+        { label: "Vibration Limit", value: "2,450 m/sÂ² (250g) pk" },
+        { label: "Shock Limit", value: "24,500 m/sÂ² (2,500g) pk" },
       ],
     },
     {
@@ -130,7 +130,7 @@ export const cvSeries: Product = {
       specs: [
         {
           label: "Operating Temperature",
-          value: "−50 to +120°C (CV-861/862), −40 to +105°C (CV-420)",
+          value: "âˆ’50 to +120Â°C (CV-861/862), âˆ’40 to +105Â°C (CV-420)",
         },
         { label: "Relative Humidity", value: "100% RH" },
         { label: "Protection Rating", value: "IP67" },
@@ -144,7 +144,7 @@ export const cvSeries: Product = {
         { label: "Weight (CV-861)", value: "Approx. 145 g" },
         { label: "Weight (CV-862)", value: "Approx. 250 g (including cable)" },
         { label: "Weight (CV-420)", value: "Approx. 160 g" },
-        { label: "Mounting", value: "M6 × 1 mounting stud" },
+        { label: "Mounting", value: "M6 Ã— 1 mounting stud" },
         { label: "Output Connector (CV-861)", value: "MIL-C-5015 2-pin" },
       ],
     },
@@ -158,7 +158,7 @@ export const cvSeries: Product = {
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/ca_cv_series.png",
+  image: "/images/products/vibration-monitoring-systems/ca_cv_series.png",
   gallery: [],
 
   documents: [

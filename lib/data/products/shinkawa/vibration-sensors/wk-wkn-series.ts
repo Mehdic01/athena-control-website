@@ -1,4 +1,4 @@
-import type { Product } from "../../types";
+﻿import type { Product } from "../../types";
 
 export const wkWknSeries: Product = {
   slug: "wk-wkn-series",
@@ -13,7 +13,7 @@ export const wkWknSeries: Product = {
   overview: [
     "The WK/WKN series adds a vibration conversion function or thrust conversion function to an eddy current transducer.",
     "Driving by a 2-wire current loop can directly transmit 4 to 20 mA signals so that the cost of the vibration monitoring system is saved.",
-    "The WK series uses a separate transmitter box, while the WKN series integrates the transmitter into a compact transducer unit — both sharing the same eddy-current sensor and extension cable components.",
+    "The WK series uses a separate transmitter box, while the WKN series integrates the transmitter into a compact transducer unit â€” both sharing the same eddy-current sensor and extension cable components.",
   ],
 
   features: [
@@ -67,13 +67,13 @@ export const wkWknSeries: Product = {
       specs: [
         {
           label: "Output Range",
-          value: "0–100, 0–125, 0–200, 0–250, 0–400 μm pk-pk (selectable)",
+          value: "0â€“100, 0â€“125, 0â€“200, 0â€“250, 0â€“400 Î¼m pk-pk (selectable)",
         },
-        { label: "Conversion Accuracy", value: "±1.5% of Full Scale Range" },
-        { label: "Max Load Resistance", value: "43.5 × (Vps − 12) Ω" },
+        { label: "Conversion Accuracy", value: "Â±1.5% of Full Scale Range" },
+        { label: "Max Load Resistance", value: "43.5 Ã— (Vps âˆ’ 12) Î©" },
         {
           label: "Not-OK Function",
-          value: "Output drops to ≤3.6 mA on sensor open/short or out-of-range",
+          value: "Output drops to â‰¤3.6 mA on sensor open/short or out-of-range",
         },
       ],
     },
@@ -85,11 +85,11 @@ export const wkWknSeries: Product = {
           value: "JIS SCM440 (AISI 4140 equivalent) flat target",
         },
         { label: "Linear Range", value: "1.4 mm (Gap: 0.3 to 1.7 mm)" },
-        { label: "Scale Factor", value: "7.87 mV/μm" },
-        { label: "Scale Factor Error", value: "7.87 mV/μm ±6.5% typ." },
+        { label: "Scale Factor", value: "7.87 mV/Î¼m" },
+        { label: "Scale Factor Error", value: "7.87 mV/Î¼m Â±6.5% typ." },
         {
           label: "Output Impedance",
-          value: "10 kΩ (calibrated at 10 MΩ load)",
+          value: "10 kÎ© (calibrated at 10 MÎ© load)",
         },
       ],
     },
@@ -98,7 +98,7 @@ export const wkWknSeries: Product = {
       specs: [
         {
           label: "Frequency Response",
-          value: "5 Hz to 6,000 Hz (+0 dB, −3 dB) at 900 μm gap",
+          value: "5 Hz to 6,000 Hz (+0 dB, âˆ’3 dB) at 900 Î¼m gap",
         },
         { label: "Power Supply Voltage", value: "12 to 35 VDC" },
         { label: "System Cable Length", value: "5 m or 7 m" },
@@ -109,17 +109,17 @@ export const wkWknSeries: Product = {
       specs: [
         {
           label: "Transmitter Operating Temp",
-          value: "0 to 70°C (32 to 158°F)",
+          value: "0 to 70Â°C (32 to 158Â°F)",
         },
         {
           label: "Transmitter Storage Temp",
-          value: "−34 to +100°C (−29 to +212°F)",
+          value: "âˆ’34 to +100Â°C (âˆ’29 to +212Â°F)",
         },
         {
           label: "Sensor Operating Temp",
-          value: "−34 to +177°C (−29 to +350°F)",
+          value: "âˆ’34 to +177Â°C (âˆ’29 to +350Â°F)",
         },
-        { label: "Connector Max Temp", value: "125°C (257°F)" },
+        { label: "Connector Max Temp", value: "125Â°C (257Â°F)" },
         { label: "Relative Humidity", value: "30 to 95% RH (non-condensing)" },
       ],
     },
@@ -131,15 +131,15 @@ export const wkWknSeries: Product = {
         { label: "Connector Diameter", value: "Approx. 7.1 mm (0.280 in)" },
         {
           label: "WK Transmitter Size",
-          value: "100 × 74 × 50 mm, approx. 530 g",
+          value: "100 Ã— 74 Ã— 50 mm, approx. 530 g",
         },
         {
           label: "WKN Transmitter Size (Type 1)",
-          value: "90 × 40 × 46.2 mm, approx. 200 g",
+          value: "90 Ã— 40 Ã— 46.2 mm, approx. 200 g",
         },
         {
           label: "WKN Transmitter Size (Type 2)",
-          value: "90 × 74 × 45.2 mm, approx. 200 g",
+          value: "90 Ã— 74 Ã— 45.2 mm, approx. 200 g",
         },
       ],
     },
@@ -157,7 +157,7 @@ export const wkWknSeries: Product = {
     },
   ],
 
-  image: "/images/products/vibration_monitoring_systems/wk-wkn_series.png",
+  image: "/images/products/vibration-monitoring-systems/wk-wkn_series.png",
   gallery: [],
 
   documents: [

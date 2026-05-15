@@ -1,4 +1,4 @@
-import type { Product } from "../../../types";
+﻿import type { Product } from "../../../types";
 
 export const mvc4: Product = {
   slug: "mvc4",
@@ -156,7 +156,7 @@ export const mvc4: Product = {
   ],
 
   quickSpecs: [
-    { label: "AC Supply Voltage", value: "2.3 – 13.8 kV" },
+    { label: "AC Supply Voltage", value: "2.3 â€“ 13.8 kV" },
     { label: "Rated Current", value: "Up to 1000 A" },
     { label: "SCR Overload", value: "500% for 60s / 600% for 30s" },
   ],
@@ -171,11 +171,11 @@ export const mvc4: Product = {
             "2300, 3300, 4160, 6000/7200V, 11-15kV VAC +10% to -15%, 50/60 Hz",
         },
         {
-          label: "HP Rating (≤7.2 kV)",
+          label: "HP Rating (â‰¤7.2 kV)",
           value: "Up to 10,000HP @ 7.2kV (800 Amps max)",
         },
         {
-          label: "HP Rating (≤15 kV)",
+          label: "HP Rating (â‰¤15 kV)",
           value: "Up to 20,000HP @ 15kV (800 Amps max)",
         },
         {
@@ -214,7 +214,7 @@ export const mvc4: Product = {
         {
           label: "Ambient Temperature",
           value:
-            "0 - 50°C (82°F to 122°F) (optional -20° to 50°C with heaters)",
+            "0 - 50Â°C (82Â°F to 122Â°F) (optional -20Â° to 50Â°C with heaters)",
         },
         { label: "Relative Humidity", value: "5 - 95%" },
         { label: "Altitude", value: "0 - 3300 ft (1000m above sea level)" },
@@ -234,7 +234,7 @@ export const mvc4: Product = {
         },
         {
           label: "Status LEDs",
-          value: "Power, Run, Alarm, Trip, Aux 1–8",
+          value: "Power, Run, Alarm, Trip, Aux 1â€“8",
         },
       ],
     },
@@ -264,27 +264,27 @@ export const mvc4: Product = {
         },
         {
           label: "Initial Torque",
-          value: "0 – 100% of nominal torque, voltage, or current",
+          value: "0 â€“ 100% of nominal torque, voltage, or current",
         },
         {
           label: "Current Limit",
-          value: "200 – 600% of motor FLA",
+          value: "200 â€“ 600% of motor FLA",
         },
         {
           label: "Acceleration Time",
-          value: "1 – 120 seconds",
+          value: "1 â€“ 120 seconds",
         },
         {
           label: "Custom Curves",
           value: "Three custom curves via plotted torque/time axis points",
         },
         {
-          label: "Pump-Flex™ Deceleration",
-          value: "1 – 60 seconds with begin & end torque adjustment",
+          label: "Pump-Flexâ„¢ Deceleration",
+          value: "1 â€“ 60 seconds with begin & end torque adjustment",
         },
         {
           label: "Kick Start",
-          value: "0.1 – 2.0 seconds (10 – 100% voltage)",
+          value: "0.1 â€“ 2.0 seconds (10 â€“ 100% voltage)",
         },
         {
           label: "Tach Feedback",
@@ -341,11 +341,11 @@ export const mvc4: Product = {
     },
   ],
 
-  image: "/images/products/softstarters/mvc4.png",
+  image: "/images/products/soft-starters/mvc4.png",
 
   gallery: [
     {
-      src: "/images/products/softstarters/mvc-4.png",
+      src: "/images/products/soft-starters/mvc-4.png",
       alt: "MVC 4 Medium Voltage Soft Starter",
     },
   ],
