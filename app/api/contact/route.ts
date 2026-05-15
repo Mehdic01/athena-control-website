@@ -2,12 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { promises as dns } from "dns";
+import { isValidEmailFormat } from "@/lib/utils/email";
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, "1 h"),
-  analytics: false,
-});
+let _ratelimit: Ratelimit | null = null;
+function getRatelimit(): Ratelimit {
+  if (!_ratelimit) {
+    _ratelimit = new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(5, "1 h"),
+      analytics: false,
+    });
+  }
+  return _ratelimit;
+}
 
 interface ContactPayload {
   name: string;
@@ -26,15 +34,21 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+async function emailDomainExists(email: string): Promise<boolean> {
+  try {
+    const domain = email.split("@")[1];
+    const records = await dns.resolveMx(domain);
+    return records.length > 0;
+  } catch {
+    return false;
+  }
 }
 
 function validatePayload(body: Partial<ContactPayload>): string | null {
   if (!body.name || typeof body.name !== "string" || body.name.trim().length < 2 || body.name.length > 100) {
     return "Name must be between 2 and 100 characters.";
   }
-  if (!body.email || typeof body.email !== "string" || !isValidEmail(body.email.trim()) || body.email.length > 254) {
+  if (!body.email || typeof body.email !== "string" || !isValidEmailFormat(body.email) || body.email.length > 254) {
     return "A valid email address is required.";
   }
   if (body.company && body.company.length > 100) {
@@ -62,7 +76,7 @@ const transporter = nodemailer.createTransport({
 export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
-    const { success } = await ratelimit.limit(ip);
+    const { success } = await getRatelimit().limit(ip);
     if (!success) {
       return NextResponse.json(
         { success: false, error: "Too many requests. Please try again later." },
@@ -85,6 +99,14 @@ export async function POST(request: NextRequest) {
     if (validationError) {
       return NextResponse.json(
         { success: false, error: validationError },
+        { status: 400 }
+      );
+    }
+
+    const domainValid = await emailDomainExists(body.email!.trim());
+    if (!domainValid) {
+      return NextResponse.json(
+        { success: false, error: "Email domain does not exist. Please check your email address." },
         { status: 400 }
       );
     }

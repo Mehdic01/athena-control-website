@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Mail, Phone, MapPin, LinkedinIcon } from "lucide-react";
 import { contactInfo } from "@/lib/data/brands/athenacontrol";
 import ScrollFAQAccordion from "@/app/contact/_components/scroll-faqaccordion";
+import { isValidEmailFormat } from "@/lib/utils/email";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type SubmitStatus = "idle" | "loading" | "success" | "error";
@@ -30,7 +31,7 @@ function validateAll(values: {
 
   if (!values.email.trim())
     e.email = "Email address is required.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))
+  else if (!isValidEmailFormat(values.email))
     e.email = "Enter a valid email address (e.g. name@company.com).";
 
   if (!values.subject.trim())

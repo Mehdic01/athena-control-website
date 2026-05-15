@@ -281,6 +281,6 @@ export const footerProductLinks: NavItem[] = [
 export const footerCompanyLinks: NavItem[] = [
   { label: "About Us",   href: "/about" },
   { label: "Our Brands", href: "/brands" },
-  { label: "Gallery",    href: "/gallery" },
+  { label: "Events",    href: "/events" },
   { label: "Contact",    href: "/contact" },
 ];

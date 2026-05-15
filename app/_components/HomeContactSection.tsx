@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { contactInfo } from "@/lib/data/brands/athenacontrol";
+import { isValidEmailFormat } from "@/lib/utils/email";
 
 // ─── Types & validation ───────────────────────────────────────────────────────
 type SubmitStatus = "idle" | "loading" | "success" | "error";
@@ -31,7 +32,7 @@ function validateAll(v: { name: string; email: string; subject: string; message:
   else if (v.name.trim().length < 2) e.name = "Name must be at least 2 characters.";
 
   if (!v.email.trim())   e.email   = "Email address is required.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim()))
+  else if (!isValidEmailFormat(v.email))
     e.email = "Enter a valid email address (e.g. name@company.com).";
 
   if (!v.subject.trim()) e.subject = "Subject is required.";
