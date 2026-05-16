@@ -274,11 +274,13 @@ export const footerProductLinks: NavItem[] = [
   { label: "Vibration Sensors",     href: "/products/vibration-sensors" },
   { label: "Condition Monitors",    href: "/products/condition-monitor" },
   { label: "Frequency Inverters",   href: "/products/frequency-inverter" },
-  { label: "Accessories",           href: "https://www.motortronics.com/pages/products.html", external: true },
-  { label: "Industrial Valves",     href: "/products/ball-valve" },
+  { label: "Industrial Valves",     href: "/products/brand/athena-valve" },
+  { label: "Actuators",   href: "/products/brand/valentech" },
 ];
 
 export const footerCompanyLinks: NavItem[] = [
+  { label: "Home",     href: "/" },
+  { label: "Products", href: "/products" },
   { label: "About Us",   href: "/about" },
   { label: "Our Brands", href: "/brands" },
   { label: "Events",    href: "/events" },

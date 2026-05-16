@@ -241,7 +241,7 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
           <div>
 
             <h1 className="font-display text-[clamp(64px,9vw,144px)] leading-[0.86] text-[#1A1A1A] m-0">
-              All <span className="text-[#9A9A9A]">Products</span>
+              PRODUCTS <span className="text-[#9A9A9A]"> LIST</span>
             </h1>
           </div>
 

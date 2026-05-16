@@ -73,6 +73,15 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  icons: {
+    icon: [
+      { url: "/images/logo/athena-logo.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/logo/athena-logo.png" },
+    ],
+    shortcut: "/images/logo/athena-logo.png",
+  },
 };
 
 export default function RootLayout({

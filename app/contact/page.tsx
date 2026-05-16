@@ -134,7 +134,7 @@ export default function ContactPage() {
       <div className="lg:flex w-full">
 
         {/* ── Left: background image + contact info ─────────────────────────── */}
-        <div className="relative lg:flex-[3] overflow-hidden bg-[#111111] lg:sticky lg:top-0 lg:h-screen">
+        <div className="relative lg:flex-[3] overflow-hidden bg-[#111111] lg:sticky lg:top-0">
           <Image
             src="/images/contact/contact_page_bg.jpg"
             alt=""
