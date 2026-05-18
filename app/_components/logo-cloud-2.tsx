@@ -105,7 +105,7 @@ function LogoCard({ logo, logoWidth, logoHeight, className, children, ...props }
   return (
     <div
       className={cn(
-        "group relative flex items-center justify-center bg-white px-10 py-14 md:p-16 transition-shadow duration-300 hover:shadow-[inset_0_0_0_1px_#D1D5DB] hover:z-10",
+        "group relative flex items-center justify-center bg-white px-6 py-8 sm:px-8 sm:py-10 md:p-16 transition-shadow duration-300 hover:shadow-[inset_0_0_0_1px_#D1D5DB] hover:z-10",
         className
       )}
       {...props}
@@ -113,7 +113,7 @@ function LogoCard({ logo, logoWidth, logoHeight, className, children, ...props }
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt={logo.alt}
-        className="pointer-events-none h-10 select-none md:h-14 w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-0.5"
+        className="pointer-events-none h-6 select-none sm:h-8 md:h-14 w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-0.5"
         style = {{ maxWidth: logoWidth ? `${logoWidth}px` : "auto", maxHeight: logoHeight ? `${logoHeight}px` : "auto" }}
         src={logo.src}
       />

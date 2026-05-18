@@ -80,7 +80,7 @@ export default function ProductCatalogSection() {
       {/* ── Cards row ────────────────────────────────────────────────────── */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto pl-8 pb-1"
+        className="flex gap-4 overflow-x-auto pl-8 ml-4 pb-1"
         style={{
           scrollSnapType: "x mandatory",
           scrollbarWidth: "none",

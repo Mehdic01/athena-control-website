@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils";
 
 // Product photos used in the avatar stack
 const productAvatars = [
-  { src: "/images/products/softstarters/vmx-synergy-plus.png", fallback: "VS+" },
-  { src: "/images/products/softstarters/vmx-agility.png",      fallback: "VA"  },
+  { src: "/images/products/soft-starters/vmx-synergy-plus.png", fallback: "VS+" },
+  { src: "/images/products/soft-starters/vmx-agility.png",      fallback: "VA"  },
   { src: "/images/products/condition_monitor/vm5.png",          fallback: "VM5" },
-  { src: "/images/products/vibration_monitoring_systems/FK_series.png", fallback: "FK" },
+  { src: "/images/products/vibration-monitoring-systems/FK_series.png", fallback: "FK" },
 ];
 
 // Brand/partner logos for the bottom marquee
@@ -21,7 +21,7 @@ const marqueeLogos = [
   { src: "/images/logo/shinkawa-logo.png",       alt: "SHINKAWA Electric", width: 140 },
   { src: "/images/logo/renle-logo.png",          alt: "RENLE",            width: 140 },
   { src: "/images/logo/athena-group-logo.png",   alt: "Athena Group",     width: 140 },
-  { src: "/images/logo/valentech_logo.webp",     alt: "Valentech",        width: 120 },
+  { src: "/images/logo/valentech-logo.webp",     alt: "Valentech",        width: 120 },
 ];
 
 // ─── Inline Marquee ───────────────────────────────────────────────────────────
@@ -87,9 +87,9 @@ export default function AboutPage() {
                 </h1>
 
                 <p className="max-w-2xl font-light text-base md:text-lg lg:text-xl">
-                  Official  distributor for Athena Group, Motortronics, SHINKAWA Electric,
-                  and RENLE — precision motor control, vibration monitoring system, and
-                  variable-speed drives for demanding industry.
+                  As a sister company of Athena Group, we are the official distributor for   Athena Valve, Motortronics, SHINKAWA Electric, ValenTech
+                  and RENLE — Industrial valves, low and medium voltage soft starters, vibration monitoring systems,
+                  variable-speed drives and actuators for demanding industry.
                 </p>
 
                 <div className="mt-auto space-y-7">

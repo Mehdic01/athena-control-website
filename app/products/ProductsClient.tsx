@@ -260,7 +260,7 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
 
       {/* ── Horizontal Filter Bar ────────────────────────────────────────────── */}
       <div
-        className={`sticky z-40 bg-white/[0.92] backdrop-blur-[12px] border-b border-[#E0E0E0] transition-[top] duration-300 ease-out ${
+        className={`z-40 bg-white/[0.92] backdrop-blur-[12px] border-b border-[#E0E0E0] transition-[top] duration-300 ease-out ${
           navHidden ? "top-0" : "top-20"
         }`}
       >
@@ -401,7 +401,7 @@ export default function ProductsClient({ initialFilters }: { initialFilters?: Fi
                 }
               />
             ) : (
-              <div className={`max-w-[1280px] mx-auto px-5 lg:px-8 pt-8 pb-6 ${view === "grid" ? "grid sm:grid-cols-2 xl:grid-cols-3 gap-6" : ""}`}>
+              <div className={`max-w-[1280px] mx-auto px-5 lg:px-8 pt-8 pb-6 ${view === "grid" ? "grid sm:grid-cols-2 xl:grid-cols- gap-6" : ""}`}>
                 {searchResults.map((product) => (
                   <ProductParallaxCard key={product.slug} product={product} view={view} />
                 ))}
